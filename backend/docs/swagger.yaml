@@ -1,0 +1,28 @@
+basePath: /api/v1
+definitions:
+  api.Techonology:
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/technology/list:
+    get:
+      consumes:
+      - application/json
+      description: get list of technologies
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/api.Techonology'
+            type: array
+      summary: get list of technologies
+swagger: "2.0"
