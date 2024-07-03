@@ -10,6 +10,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary post new technology in db
+// @Schemes
+// @Description post new technology in db
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Technology
+// @Router /api/technology [post]
 func (a *App) AddTechnology(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {
@@ -37,6 +44,13 @@ func (a *App) AddTechnology(c *gin.Context) {
 	c.JSON(http.StatusOK, t)
 }
 
+// @Summary get all technologies in db
+// @Schemes
+// @Description get all technologies in db
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Technology
+// @Router /api/technology/list [get]
 func (a *App) GetTechnologies(c *gin.Context) {
 	t := []models.Techonology{
 		{Id: 1, Title: "C++"},
@@ -47,6 +61,13 @@ func (a *App) GetTechnologies(c *gin.Context) {
 	c.JSON(http.StatusOK, t)
 }
 
+// @Summary delete technology in db
+// @Schemes
+// @Description delete technology in db
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Technology
+// @Router /api/technology [delete]
 func (a *App) DeleteTechnology(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {

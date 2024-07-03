@@ -51,9 +51,9 @@ func (a *App) AddProgramm(c *gin.Context) {
 	c.JSON(http.StatusOK, p)
 }
 
-// @Summary get all programm in db
+// @Summary get all programmes in db
 // @Schemes
-// @Description get all programm in db
+// @Description get all programmes in db
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.Programm
