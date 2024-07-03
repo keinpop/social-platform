@@ -10,6 +10,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary post new role in db
+// @Schemes
+// @Description post new role in db
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Role
+// @Router /api/role [post]
 func (a *App) AddRole(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {
@@ -37,6 +44,13 @@ func (a *App) AddRole(c *gin.Context) {
 	c.JSON(http.StatusOK, r)
 }
 
+// @Summary get all roles in db
+// @Schemes
+// @Description get all roles in db
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Role
+// @Router /api/role/list [get]
 func (a *App) GetRoles(c *gin.Context) {
 	r := []models.Role{
 		{Id: 1, Title: "Teamlead"},
@@ -48,6 +62,13 @@ func (a *App) GetRoles(c *gin.Context) {
 	c.JSON(http.StatusOK, r)
 }
 
+// @Summary delete role in db
+// @Schemes
+// @Description delete role in db
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Role
+// @Router /api/role [delete]
 func (a *App) DeleteRole(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {
