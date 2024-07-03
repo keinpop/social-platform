@@ -15,24 +15,59 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/technology/list": {
-            "get": {
-                "description": "get list of technologies",
+        "/api/programm": {
+            "post": {
+                "description": "post new programm in db",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "get list of technologies",
+                "summary": "post new programm in db",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/api.Techonology"
-                            }
+                            "$ref": "#/definitions/models.Programm"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "delete programm in db",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "delete programm in db",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Programm"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/programm/list": {
+            "get": {
+                "description": "get all programm in db",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "get all programm in db",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Programm"
                         }
                     }
                 }
@@ -40,9 +75,12 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "api.Techonology": {
+        "models.Programm": {
             "type": "object",
             "properties": {
+                "duration": {
+                    "type": "integer"
+                },
                 "id": {
                     "type": "integer"
                 },
