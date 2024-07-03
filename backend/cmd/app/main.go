@@ -28,9 +28,17 @@ func main() {
 	// r.GET("/api/technology/list", a.GetTechnologies)
 	// r.POST("/api/technology", a.AddTechnology)
 
-	r.POST("/api/programm", a.AddProgramm)
+	r.POST("/api/progrmm", a.AddProgramm)
 	r.GET("/api/programm/list", a.GetProgrammes)
 	r.DELETE("/api/programm", a.DeleteProgramm)
+
+	r.POST("/api/role", a.AddRole)
+	r.GET("/api/role/list", a.GetRoles)
+	r.DELETE("/api/role", a.DeleteRole)
+
+	r.POST("/api/technology", a.AddTechnology)
+	r.GET("/api/technology/list", a.GetTechnologies)
+	r.DELETE("/api/technology", a.DeleteTechnology)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
