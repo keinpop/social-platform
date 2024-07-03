@@ -1,7 +1,9 @@
 basePath: /api/v1
 definitions:
-  api.Techonology:
+  models.Programm:
     properties:
+      duration:
+        type: integer
       id:
         type: integer
       title:
@@ -10,19 +12,42 @@ definitions:
 info:
   contact: {}
 paths:
-  /api/technology/list:
-    get:
+  /api/programm:
+    delete:
       consumes:
       - application/json
-      description: get list of technologies
+      description: delete programm in db
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/api.Techonology'
-            type: array
-      summary: get list of technologies
+            $ref: '#/definitions/models.Programm'
+      summary: delete programm in db
+    post:
+      consumes:
+      - application/json
+      description: post new programm in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Programm'
+      summary: post new programm in db
+  /api/programm/list:
+    get:
+      consumes:
+      - application/json
+      description: get all programm in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Programm'
+      summary: get all programm in db
 swagger: "2.0"
