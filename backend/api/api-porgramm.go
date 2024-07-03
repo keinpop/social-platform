@@ -56,7 +56,7 @@ func (a *App) AddProgramm(c *gin.Context) {
 // @Description get all programmes in db
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Programm
+// @Success 200 {object} models.Programmes
 // @Router /api/programm/list [get]
 func (a *App) GetProgrammes(c *gin.Context) {
 	p := []models.Programm{

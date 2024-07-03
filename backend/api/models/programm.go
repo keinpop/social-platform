@@ -5,3 +5,5 @@ type Programm struct {
 	Title    string `json:"title" yaml:"title"`
 	Duration uint64 `json:"duration" yaml:"duration"`
 }
+
+type Programmes []Programm

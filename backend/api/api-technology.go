@@ -15,7 +15,7 @@ import (
 // @Description post new technology in db
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Technology
+// @Success 200 {object} models.Techonology
 // @Router /api/technology [post]
 func (a *App) AddTechnology(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
@@ -49,7 +49,7 @@ func (a *App) AddTechnology(c *gin.Context) {
 // @Description get all technologies in db
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Technology
+// @Success 200 {object} models.Technologies
 // @Router /api/technology/list [get]
 func (a *App) GetTechnologies(c *gin.Context) {
 	t := []models.Techonology{
@@ -66,7 +66,7 @@ func (a *App) GetTechnologies(c *gin.Context) {
 // @Description delete technology in db
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Technology
+// @Success 200 {object} models.Techonology
 // @Router /api/technology [delete]
 func (a *App) DeleteTechnology(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
