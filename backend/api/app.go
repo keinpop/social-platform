@@ -2,11 +2,11 @@ package api
 
 import (
 	"encoding/json"
+	"github.com/gin-gonic/gin"
 	"io"
 	"log"
+	"mai-platform/models"
 	"net/http"
-
-	"github.com/gin-gonic/gin"
 )
 
 type App struct {
@@ -17,12 +17,7 @@ func NewApp(cfg *Config) *App {
 	return &App{config: cfg}
 }
 
-type Techonology struct {
-	Id    uint64 `json:"id"`
-	Title string `json:"title"`
-}
-
-type Techonologies []Techonology
+type Techonologies []models.Techonology
 
 // @Summary get list of technologies
 // @Schemes
@@ -33,7 +28,7 @@ type Techonologies []Techonology
 // @Router /api/technology/list [get]
 func (a *App) GetTechnologies(c *gin.Context) {
 	//TODO: DB
-	t := []Techonology{
+	t := []models.Techonology{
 		{Id: 1, Title: "C++"},
 		{Id: 2, Title: "Golang"},
 	}
@@ -49,7 +44,7 @@ func (a *App) AddTechnology(c *gin.Context) {
 		return
 	}
 
-	var t Techonology
+	var t models.Techonology
 	err = json.Unmarshal(jsonData, &t)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
