@@ -16,7 +16,7 @@ import (
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.Company
-// @Router /api/company [post]
+// @Router /company [post]
 func (a *App) AddCompany(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {
@@ -44,13 +44,49 @@ func (a *App) AddCompany(c *gin.Context) {
 	c.JSON(http.StatusOK, comp)
 }
 
+// @Summary change company name in db
+// @Schemes
+// @Description change company name in db
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Company
+// @Router /company [put]
+func (a *App) ChangeCompanyName(c *gin.Context) {
+	jsonData, err := io.ReadAll(c.Request.Body)
+	if err != nil {
+		log.Printf("[error] Failed to read body: %v", err)
+		c.JSON(http.StatusInternalServerError, "")
+		return
+	}
+
+	var comp models.Company
+	err = json.Unmarshal(jsonData, &comp)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	if comp.Title == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Empty title",
+		})
+		return
+	}
+
+	// TODO: change name in db
+
+	c.JSON(http.StatusOK, comp)
+}
+
 // @Summary get all companies in db
 // @Schemes
 // @Description get all companies in db
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.Companies
-// @Router /api/company/list [get]
+// @Router /company/list [get]
 func (a *App) GetCompanies(c *gin.Context) {
 	comp := models.Companies{
 		{Id: 1, Title: "Яндекс"},
@@ -67,7 +103,7 @@ func (a *App) GetCompanies(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.Company
-// @Router /api/company [delete]
+// @Router /company [delete]
 func (a *App) DeleteCompany(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {

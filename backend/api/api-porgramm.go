@@ -16,7 +16,7 @@ import (
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.Programm
-// @Router /api/programm [post]
+// @Router /programm [post]
 func (a *App) AddProgramm(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {
@@ -57,7 +57,7 @@ func (a *App) AddProgramm(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.Programmes
-// @Router /api/programm/list [get]
+// @Router /programm/list [get]
 func (a *App) GetProgrammes(c *gin.Context) {
 	p := []models.Programm{
 		{Id: 1, Title: "ПМИ", Duration: 4},
@@ -74,7 +74,7 @@ func (a *App) GetProgrammes(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.Programm
-// @Router /api/programm [delete]
+// @Router /programm [delete]
 func (a *App) DeleteProgramm(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {

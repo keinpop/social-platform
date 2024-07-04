@@ -16,7 +16,7 @@ import (
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.Techonology
-// @Router /api/technology [post]
+// @Router /technology [post]
 func (a *App) AddTechnology(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {
@@ -50,7 +50,7 @@ func (a *App) AddTechnology(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.Technologies
-// @Router /api/technology/list [get]
+// @Router /technology/list [get]
 func (a *App) GetTechnologies(c *gin.Context) {
 	t := []models.Techonology{
 		{Id: 1, Title: "C++"},
@@ -67,7 +67,7 @@ func (a *App) GetTechnologies(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.Techonology
-// @Router /api/technology [delete]
+// @Router /technology [delete]
 func (a *App) DeleteTechnology(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {

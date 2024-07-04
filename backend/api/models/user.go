@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type UserDB struct {
 	Id          uint         `json:"id"`
 	Name        string       `json:"name"`
@@ -13,7 +15,7 @@ type UserDB struct {
 	About       string       `json:"about"`
 }
 
-type UserJSON struct {
+type User struct {
 	Id          uint         `json:"id"`
 	Name        string       `json:"name"`
 	Fathername  string       `json:"fathername"`
@@ -22,15 +24,35 @@ type UserJSON struct {
 	Techonology Technologies `json:"technologies"`
 	Workplaces  Workplaces   `json:"workplaces"`
 	About       string       `json:"about"`
+
+	StudentProfile *Student
+	TeacherProfule *Teacher
 }
 
 type Student struct {
-	EnterDate     string   `json:"enter_date"`
-	Role          Role     `json:"role"`
-	CurrentCourse string   `json:"current_course"`
-	Programm      Programm `json:"programm"`
+	EnterDate     time.Time `json:"enter_date"`
+	Role          Role      `json:"role"`
+	CurrentCourse string    `json:"current_course"`
+	Programm      Programm  `json:"programm"`
 }
 
 type Teacher struct {
 	StudyingYears uint `json:"studying_years"`
+}
+
+type StudentDB struct {
+	UserID        uint      `json:"user_id"`
+	EnterDate     time.Time `json:"enter_date"`
+	Role          Role      `json:"role"`
+	CurrentCourse string    `json:"current_course"`
+	Programm      Programm  `json:"programm"`
+}
+
+type TeacherDB struct {
+	UserID        uint `json:"user_id"`
+	StudyingYears uint `json:"studying_years"`
+}
+
+type AdminDB struct {
+	UserID uint `json:"user_id"`
 }

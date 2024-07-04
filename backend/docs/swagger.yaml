@@ -1,4 +1,4 @@
-basePath: /api/v1
+basePath: /api
 definitions:
   models.Company:
     properties:
@@ -33,7 +33,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /api/company:
+  /company:
     delete:
       consumes:
       - application/json
@@ -58,7 +58,19 @@ paths:
           schema:
             $ref: '#/definitions/models.Company'
       summary: post new company in db
-  /api/company/list:
+    put:
+      consumes:
+      - application/json
+      description: change company name in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Company'
+      summary: change company name in db
+  /company/list:
     get:
       consumes:
       - application/json
@@ -73,7 +85,7 @@ paths:
               $ref: '#/definitions/models.Company'
             type: array
       summary: get all companies in db
-  /api/programm:
+  /programm:
     delete:
       consumes:
       - application/json
@@ -98,7 +110,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Programm'
       summary: post new programm in db
-  /api/programm/list:
+  /programm/list:
     get:
       consumes:
       - application/json
@@ -113,7 +125,7 @@ paths:
               $ref: '#/definitions/models.Programm'
             type: array
       summary: get all programmes in db
-  /api/role:
+  /role:
     delete:
       consumes:
       - application/json
@@ -138,7 +150,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Role'
       summary: post new role in db
-  /api/role/list:
+  /role/list:
     get:
       consumes:
       - application/json
@@ -153,7 +165,7 @@ paths:
               $ref: '#/definitions/models.Role'
             type: array
       summary: get all roles in db
-  /api/technology:
+  /technology:
     delete:
       consumes:
       - application/json
@@ -178,7 +190,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Techonology'
       summary: post new technology in db
-  /api/technology/list:
+  /technology/list:
     get:
       consumes:
       - application/json

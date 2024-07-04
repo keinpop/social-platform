@@ -16,7 +16,7 @@ import (
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.Role
-// @Router /api/role [post]
+// @Router /role [post]
 func (a *App) AddRole(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {
@@ -50,7 +50,7 @@ func (a *App) AddRole(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.Roles
-// @Router /api/role/list [get]
+// @Router /role/list [get]
 func (a *App) GetRoles(c *gin.Context) {
 	r := []models.Role{
 		{Id: 1, Title: "Teamlead"},
@@ -68,7 +68,7 @@ func (a *App) GetRoles(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.Role
-// @Router /api/role [delete]
+// @Router /role [delete]
 func (a *App) DeleteRole(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {

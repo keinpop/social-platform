@@ -10,7 +10,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// @BasePath /api/v1
+// @BasePath /api
 
 const CONFIG_PATH = "./etc/config.yaml"
 
@@ -23,7 +23,7 @@ func main() {
 	a := api.NewApp(c)
 
 	r := gin.Default()
-	docs.SwaggerInfo.BasePath = "/api/v1"
+	docs.SwaggerInfo.BasePath = "/api"
 
 	r.POST("/api/progrmm", a.AddProgramm)
 	r.GET("/api/programm/list", a.GetProgrammes)
