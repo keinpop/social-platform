@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"mai-platform/api"
+	"mai-platform/db"
 	"mai-platform/docs"
 
 	"github.com/gin-gonic/gin"
@@ -21,6 +22,8 @@ func main() {
 	}
 
 	a := api.NewApp(c)
+	DB := db.InitCompanyDB()
+	api.NewH(DB)
 
 	r := gin.Default()
 	docs.SwaggerInfo.BasePath = "/api"

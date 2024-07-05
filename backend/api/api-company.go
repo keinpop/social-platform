@@ -41,7 +41,14 @@ func (a *App) AddCompany(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, comp)
+	if result := a.DB.Create(&comp); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Error during creation new company",
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, comp)
 }
 
 // @Summary change company name in db
