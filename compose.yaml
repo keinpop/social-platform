@@ -19,8 +19,6 @@ services:
     image: postgres
     restart: always
     user: postgres
-    ports:
-      - 5432:5432
     secrets:
       - db-password
     volumes:

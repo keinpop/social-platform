@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"mai-platform/api"
-	"mai-platform/db"
 	"mai-platform/docs"
 
 	"github.com/gin-gonic/gin"
@@ -22,8 +21,6 @@ func main() {
 	}
 
 	a := api.NewApp(c)
-	DB := db.InitCompanyDB()
-	api.NewH(DB)
 
 	r := gin.Default()
 	docs.SwaggerInfo.BasePath = "/api"
@@ -42,7 +39,7 @@ func main() {
 
 	r.POST("/api/company", a.AddCompany)
 	r.GET("/api/company/list", a.GetCompanies)
-	r.DELETE("/api/company", a.DeleteCompany)
+	r.DELETE("/api/company/*id", a.DeleteCompany)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")

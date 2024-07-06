@@ -6,8 +6,16 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+type dbConfig struct {
+	login    string `yaml:"login"`
+	password string `yaml:"password"`
+	address  string `yaml:"address"`
+}
+
 type Config struct {
 	port uint `yaml:"port"`
+
+	dbConfig
 }
 
 func NewConfig(configPath string) (*Config, error) {

@@ -1,9 +1,13 @@
 package api
 
-import "gorm.io/gorm"
+import (
+	"mai-platform/db"
+
+	"gorm.io/gorm"
+)
 
 type Handler struct {
-	DB *gorm.DB
+	db *gorm.DB
 }
 
 func NewH(db *gorm.DB) Handler {
@@ -17,5 +21,10 @@ type App struct {
 }
 
 func NewApp(cfg *Config) *App {
-	return &App{config: cfg}
+	db := db.InitCompanyDB()
+
+	return &App{
+		config:  cfg,
+		Handler: NewH(db),
+	}
 }
