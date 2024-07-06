@@ -1,23 +1,29 @@
-package api
+package role
 
 import (
 	"encoding/json"
 	"io"
 	"log"
-	"mai-platform/api/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
+
+type Role struct {
+	Id    uint   `json:"id" yaml:"id"`
+	Title string `json:"title" yaml:"title"`
+}
+
+type Roles []Role
 
 // @Summary post new role in db
 // @Schemes
 // @Description post new role in db
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Role
+// @Success 200 {object} Role
 // @Router /role [post]
-func (a *App) AddRole(c *gin.Context) {
+func AddRole(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {
 		log.Printf("[error] Failed to read body: %v", err)
@@ -25,7 +31,7 @@ func (a *App) AddRole(c *gin.Context) {
 		return
 	}
 
-	var r models.Role
+	var r Role
 	err = json.Unmarshal(jsonData, &r)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -49,10 +55,10 @@ func (a *App) AddRole(c *gin.Context) {
 // @Description get all roles in db
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Roles
+// @Success 200 {object} Roles
 // @Router /role/list [get]
-func (a *App) GetRoles(c *gin.Context) {
-	r := []models.Role{
+func GetRoles(c *gin.Context) {
+	r := []Role{
 		{Id: 1, Title: "Teamlead"},
 		{Id: 2, Title: "Frontend-разработчик"},
 		{Id: 3, Title: "Backend-разработчик"},
@@ -67,9 +73,9 @@ func (a *App) GetRoles(c *gin.Context) {
 // @Description delete role in db
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Role
+// @Success 200 {object} Role
 // @Router /role [delete]
-func (a *App) DeleteRole(c *gin.Context) {
+func DeleteRole(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {
 		log.Printf("[error] Failed to read body: %v", err)
@@ -77,7 +83,7 @@ func (a *App) DeleteRole(c *gin.Context) {
 		return
 	}
 
-	var r models.Role
+	var r Role
 	err = json.Unmarshal(jsonData, &r)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

@@ -1,0 +1,7 @@
+port: 8090
+db: 
+  login: postgres
+  password: db-frknz
+  address: db
+  port: 5432
+  database: example
