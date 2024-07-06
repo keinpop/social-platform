@@ -1,23 +1,29 @@
-package api
+package technology
 
 import (
 	"encoding/json"
 	"io"
 	"log"
-	"mai-platform/api/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
+
+type Techonology struct {
+	Id    uint64 `json:"id" yaml:"id"`
+	Title string `json:"title" yaml:"title"`
+}
+
+type Technologies []Techonology
 
 // @Summary post new technology in db
 // @Schemes
 // @Description post new technology in db
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Technology
-// @Router /api/technology [post]
-func (a *App) AddTechnology(c *gin.Context) {
+// @Success 200 {object} Techonology
+// @Router /technology [post]
+func AddTechnology(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {
 		log.Printf("[error] Failed to read body: %v", err)
@@ -25,7 +31,7 @@ func (a *App) AddTechnology(c *gin.Context) {
 		return
 	}
 
-	var t models.Techonology
+	var t Techonology
 	err = json.Unmarshal(jsonData, &t)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -49,10 +55,10 @@ func (a *App) AddTechnology(c *gin.Context) {
 // @Description get all technologies in db
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Technology
-// @Router /api/technology/list [get]
-func (a *App) GetTechnologies(c *gin.Context) {
-	t := []models.Techonology{
+// @Success 200 {object} Technologies
+// @Router /technology/list [get]
+func GetTechnologies(c *gin.Context) {
+	t := []Techonology{
 		{Id: 1, Title: "C++"},
 		{Id: 2, Title: "Golang"},
 		{Id: 3, Title: "Python"},
@@ -66,9 +72,9 @@ func (a *App) GetTechnologies(c *gin.Context) {
 // @Description delete technology in db
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Technology
-// @Router /api/technology [delete]
-func (a *App) DeleteTechnology(c *gin.Context) {
+// @Success 200 {object} Techonology
+// @Router /technology [delete]
+func DeleteTechnology(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {
 		log.Printf("[error] Failed to read body: %v", err)
@@ -76,7 +82,7 @@ func (a *App) DeleteTechnology(c *gin.Context) {
 		return
 	}
 
-	var t models.Techonology
+	var t Techonology
 	err = json.Unmarshal(jsonData, &t)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

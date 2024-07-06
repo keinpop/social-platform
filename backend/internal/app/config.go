@@ -1,13 +1,15 @@
-package api
+package app
 
 import (
+	"mai-platform/internal/clients/db"
 	"os"
 
 	"gopkg.in/yaml.v3"
 )
 
 type Config struct {
-	port uint `yaml:"port"`
+	Port uint `yaml:"port"`
+	DB   db.Config
 }
 
 func NewConfig(configPath string) (*Config, error) {

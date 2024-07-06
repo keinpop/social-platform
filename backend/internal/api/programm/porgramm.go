@@ -1,23 +1,31 @@
-package api
+package programm
 
 import (
 	"encoding/json"
 	"io"
 	"log"
-	"mai-platform/api/models"
+
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
+
+type Programm struct {
+	Id       uint64 `json:"id"`
+	Title    string `json:"title"`
+	Duration uint64 `json:"duration"`
+}
+
+type Programmes []Programm
 
 // @Summary post new programm in db
 // @Schemes
 // @Description post new programm in db
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Programm
-// @Router /api/programm [post]
-func (a *App) AddProgramm(c *gin.Context) {
+// @Success 200 {object} Programm
+// @Router /programm [post]
+func AddProgramm(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {
 		log.Printf("[error] Failed to read body: %v", err)
@@ -25,7 +33,7 @@ func (a *App) AddProgramm(c *gin.Context) {
 		return
 	}
 
-	var p models.Programm
+	var p Programm
 	err = json.Unmarshal(jsonData, &p)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -56,10 +64,10 @@ func (a *App) AddProgramm(c *gin.Context) {
 // @Description get all programmes in db
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Programm
-// @Router /api/programm/list [get]
-func (a *App) GetProgrammes(c *gin.Context) {
-	p := []models.Programm{
+// @Success 200 {object} Programmes
+// @Router /programm/list [get]
+func GetProgrammes(c *gin.Context) {
+	p := []Programm{
 		{Id: 1, Title: "ПМИ", Duration: 4},
 		{Id: 2, Title: "ФИИТ", Duration: 4},
 		{Id: 3, Title: "ПМ", Duration: 4},
@@ -73,9 +81,9 @@ func (a *App) GetProgrammes(c *gin.Context) {
 // @Description delete programm in db
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Programm
-// @Router /api/programm [delete]
-func (a *App) DeleteProgramm(c *gin.Context) {
+// @Success 200 {object} Programm
+// @Router /programm [delete]
+func DeleteProgramm(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
 	if err != nil {
 		log.Printf("[error] Failed to read body: %v", err)
@@ -83,7 +91,7 @@ func (a *App) DeleteProgramm(c *gin.Context) {
 		return
 	}
 
-	var p models.Programm
+	var p Programm
 	err = json.Unmarshal(jsonData, &p)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

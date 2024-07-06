@@ -1,5 +1,12 @@
-basePath: /api/v1
+basePath: /api
 definitions:
+  models.Company:
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
   models.Programm:
     properties:
       duration:
@@ -9,10 +16,76 @@ definitions:
       title:
         type: string
     type: object
+  models.Role:
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  models.Techonology:
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
-  /api/programm:
+  /company:
+    delete:
+      consumes:
+      - application/json
+      description: delete company in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Company'
+      summary: delete company in db
+    post:
+      consumes:
+      - application/json
+      description: post new company in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Company'
+      summary: post new company in db
+    put:
+      consumes:
+      - application/json
+      description: change company name in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Company'
+      summary: change company name in db
+  /company/list:
+    get:
+      consumes:
+      - application/json
+      description: get all companies in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Company'
+            type: array
+      summary: get all companies in db
+  /programm:
     delete:
       consumes:
       - application/json
@@ -37,17 +110,99 @@ paths:
           schema:
             $ref: '#/definitions/models.Programm'
       summary: post new programm in db
-  /api/programm/list:
+  /programm/list:
     get:
       consumes:
       - application/json
-      description: get all programm in db
+      description: get all programmes in db
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Programm'
-      summary: get all programm in db
+            items:
+              $ref: '#/definitions/models.Programm'
+            type: array
+      summary: get all programmes in db
+  /role:
+    delete:
+      consumes:
+      - application/json
+      description: delete role in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Role'
+      summary: delete role in db
+    post:
+      consumes:
+      - application/json
+      description: post new role in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Role'
+      summary: post new role in db
+  /role/list:
+    get:
+      consumes:
+      - application/json
+      description: get all roles in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Role'
+            type: array
+      summary: get all roles in db
+  /technology:
+    delete:
+      consumes:
+      - application/json
+      description: delete technology in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Techonology'
+      summary: delete technology in db
+    post:
+      consumes:
+      - application/json
+      description: post new technology in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Techonology'
+      summary: post new technology in db
+  /technology/list:
+    get:
+      consumes:
+      - application/json
+      description: get all technologies in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Techonology'
+            type: array
+      summary: get all technologies in db
 swagger: "2.0"
