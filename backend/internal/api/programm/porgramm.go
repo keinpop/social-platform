@@ -2,9 +2,12 @@ package programm
 
 import (
 	"encoding/json"
+	"gorm.io/gorm"
 	"io"
 	"log"
+	"mai-platform/internal/middleware"
 
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,6 +23,7 @@ type Programmes []Programm
 
 // @Summary post new programm in db
 // @Schemes
+// @Tags Programm-API
 // @Description post new programm in db
 // @Accept json
 // @Produce json
@@ -33,8 +37,8 @@ func AddProgramm(c *gin.Context) {
 		return
 	}
 
-	var p Programm
-	err = json.Unmarshal(jsonData, &p)
+	var prog Programm
+	err = json.Unmarshal(jsonData, &prog)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
@@ -42,42 +46,55 @@ func AddProgramm(c *gin.Context) {
 		return
 	}
 
-	if p.Title == "" {
+	if prog.Title == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Empty title",
 		})
 		return
 	}
 
-	if p.Duration == 0 {
+	a := middleware.GetApp(c)
+	res, err := a.DB.AddProgramm(prog.Title, prog.Duration)
+	switch {
+	case err == nil:
+		c.JSON(http.StatusCreated, Programm(*res))
+	case errors.Is(err, gorm.ErrCheckConstraintViolated) || errors.Is(err, gorm.ErrDuplicatedKey):
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Empty duration",
+			"error": "Record already exists",
 		})
-		return
+	default:
+		log.Printf("Failed to create Programm: %v", err)
+		c.JSON(http.StatusInternalServerError, "")
 	}
-
-	c.JSON(http.StatusOK, p)
 }
 
 // @Summary get all programmes in db
 // @Schemes
+// @Tags Programm-API
 // @Description get all programmes in db
 // @Accept json
 // @Produce json
 // @Success 200 {object} Programmes
 // @Router /programm/list [get]
 func GetProgrammes(c *gin.Context) {
-	p := []Programm{
-		{Id: 1, Title: "ПМИ", Duration: 4},
-		{Id: 2, Title: "ФИИТ", Duration: 4},
-		{Id: 3, Title: "ПМ", Duration: 4},
+	a := middleware.GetApp(c)
+	res, err := a.DB.GetProgrammes()
+	if err != nil {
+		log.Printf("Failed to get companies: %v", err)
+		c.JSON(http.StatusInternalServerError, "")
 	}
 
-	c.JSON(http.StatusOK, p)
+	var ret []Programm
+	for i := range res {
+		ret = append(ret, Programm(res[i]))
+	}
+
+	c.JSON(http.StatusOK, ret)
 }
 
 // @Summary delete programm in db
 // @Schemes
+// @Tags Programm-API
 // @Description delete programm in db
 // @Accept json
 // @Produce json

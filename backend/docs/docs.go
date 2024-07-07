@@ -16,24 +16,6 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/company": {
-            "put": {
-                "description": "change company name in db",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "change company name in db",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Company"
-                        }
-                    }
-                }
-            },
             "post": {
                 "description": "post new company in db",
                 "consumes": [
@@ -42,12 +24,15 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Company-API"
+                ],
                 "summary": "post new company in db",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Company"
+                            "$ref": "#/definitions/company.Company"
                         }
                     }
                 }
@@ -60,12 +45,15 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Company-API"
+                ],
                 "summary": "delete company in db",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Company"
+                            "$ref": "#/definitions/company.Company"
                         }
                     }
                 }
@@ -80,6 +68,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Company-API"
+                ],
                 "summary": "get all companies in db",
                 "responses": {
                     "200": {
@@ -87,7 +78,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Company"
+                                "$ref": "#/definitions/company.Company"
                             }
                         }
                     }
@@ -103,12 +94,15 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Programm-API"
+                ],
                 "summary": "post new programm in db",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Programm"
+                            "$ref": "#/definitions/programm.Programm"
                         }
                     }
                 }
@@ -121,12 +115,15 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Programm-API"
+                ],
                 "summary": "delete programm in db",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Programm"
+                            "$ref": "#/definitions/programm.Programm"
                         }
                     }
                 }
@@ -141,6 +138,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Programm-API"
+                ],
                 "summary": "get all programmes in db",
                 "responses": {
                     "200": {
@@ -148,7 +148,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Programm"
+                                "$ref": "#/definitions/programm.Programm"
                             }
                         }
                     }
@@ -164,12 +164,15 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Role-API"
+                ],
                 "summary": "post new role in db",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Role"
+                            "$ref": "#/definitions/role.Role"
                         }
                     }
                 }
@@ -182,12 +185,15 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Role-API"
+                ],
                 "summary": "delete role in db",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Role"
+                            "$ref": "#/definitions/role.Role"
                         }
                     }
                 }
@@ -202,6 +208,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Role-API"
+                ],
                 "summary": "get all roles in db",
                 "responses": {
                     "200": {
@@ -209,7 +218,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Role"
+                                "$ref": "#/definitions/role.Role"
                             }
                         }
                     }
@@ -225,12 +234,15 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Techonology-API"
+                ],
                 "summary": "post new technology in db",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Techonology"
+                            "$ref": "#/definitions/technology.Techonology"
                         }
                     }
                 }
@@ -243,12 +255,15 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Techonology-API"
+                ],
                 "summary": "delete technology in db",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Techonology"
+                            "$ref": "#/definitions/technology.Techonology"
                         }
                     }
                 }
@@ -263,6 +278,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Techonology-API"
+                ],
                 "summary": "get all technologies in db",
                 "responses": {
                     "200": {
@@ -270,7 +288,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Techonology"
+                                "$ref": "#/definitions/technology.Techonology"
                             }
                         }
                     }
@@ -279,7 +297,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.Company": {
+        "company.Company": {
             "type": "object",
             "properties": {
                 "id": {
@@ -290,7 +308,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Programm": {
+        "programm.Programm": {
             "type": "object",
             "properties": {
                 "duration": {
@@ -304,7 +322,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Role": {
+        "role.Role": {
             "type": "object",
             "properties": {
                 "id": {
@@ -315,7 +333,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Techonology": {
+        "technology.Techonology": {
             "type": "object",
             "properties": {
                 "id": {

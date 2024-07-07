@@ -2,22 +2,27 @@ package role
 
 import (
 	"encoding/json"
+	"gorm.io/gorm"
 	"io"
 	"log"
+	"mai-platform/internal/middleware"
 	"net/http"
+
+	"errors"
 
 	"github.com/gin-gonic/gin"
 )
 
 type Role struct {
-	Id    uint   `json:"id" yaml:"id"`
-	Title string `json:"title" yaml:"title"`
+	Id    uint   `json:"id"`
+	Title string `json:"title"`
 }
 
 type Roles []Role
 
 // @Summary post new role in db
 // @Schemes
+// @Tags Role-API
 // @Description post new role in db
 // @Accept json
 // @Produce json
@@ -31,8 +36,8 @@ func AddRole(c *gin.Context) {
 		return
 	}
 
-	var r Role
-	err = json.Unmarshal(jsonData, &r)
+	var role Role
+	err = json.Unmarshal(jsonData, &role)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
@@ -40,36 +45,55 @@ func AddRole(c *gin.Context) {
 		return
 	}
 
-	if r.Title == "" {
+	if role.Title == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Empty title",
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, r)
+	a := middleware.GetApp(c)
+	res, err := a.DB.AddRole(role.Title)
+	switch {
+	case err == nil:
+		c.JSON(http.StatusCreated, Role(*res))
+	case errors.Is(err, gorm.ErrCheckConstraintViolated) || errors.Is(err, gorm.ErrDuplicatedKey):
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Record already exists",
+		})
+	default:
+		log.Printf("Failed to create Role: %v", err)
+		c.JSON(http.StatusInternalServerError, "")
+	}
 }
 
 // @Summary get all roles in db
 // @Schemes
+// @Tags Role-API
 // @Description get all roles in db
 // @Accept json
 // @Produce json
 // @Success 200 {object} Roles
 // @Router /role/list [get]
 func GetRoles(c *gin.Context) {
-	r := []Role{
-		{Id: 1, Title: "Teamlead"},
-		{Id: 2, Title: "Frontend-разработчик"},
-		{Id: 3, Title: "Backend-разработчик"},
-		{Id: 4, Title: "ML-инженер"},
+	a := middleware.GetApp(c)
+	res, err := a.DB.GetRoles()
+	if err != nil {
+		log.Printf("Failed to get companies: %v", err)
+		c.JSON(http.StatusInternalServerError, "")
 	}
 
-	c.JSON(http.StatusOK, r)
+	var ret []Role
+	for i := range res {
+		ret = append(ret, Role(res[i]))
+	}
+
+	c.JSON(http.StatusOK, ret)
 }
 
 // @Summary delete role in db
 // @Schemes
+// @Tags Role-API
 // @Description delete role in db
 // @Accept json
 // @Produce json
