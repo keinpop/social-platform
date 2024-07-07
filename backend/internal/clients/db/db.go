@@ -79,9 +79,70 @@ func (d *DB) AddCompany(title string) (*models.Company, error) {
 
 func (d *DB) GetCompanies() ([]models.Company, error) {
 	var companies []models.Company
+
 	if result := d.db.Find(&companies); result.Error != nil {
 		return nil, result.Error
 	}
 
 	return companies, nil
+}
+
+func (d *DB) AddProgramm(title string, duration uint64) (*models.Programm, error) {
+	p := models.Programm{Title: title, Duration: duration}
+
+	if result := d.db.Create(&p); result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &p, nil
+}
+
+func (d *DB) GetProgrammes() ([]models.Programm, error) {
+	var programmes []models.Programm
+
+	if result := d.db.Find(&programmes); result.Error != nil {
+		return nil, result.Error
+	}
+
+	return programmes, nil
+}
+
+func (d *DB) AddRole(title string) (*models.Role, error) {
+	r := models.Role{Title: title}
+
+	if result := d.db.Create(&r); result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &r, nil
+}
+
+func (d *DB) GetRoles() ([]models.Role, error) {
+	var roles []models.Role
+
+	if result := d.db.Find(&roles); result.Error != nil {
+		return nil, result.Error
+	}
+
+	return roles, nil
+}
+
+func (d *DB) AddTechonology(title string) (*models.Techonology, error) {
+	t := models.Techonology{Title: title}
+
+	if result := d.db.Create(&t); result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &t, nil
+}
+
+func (d *DB) GetTechonologies() ([]models.Techonology, error) {
+	var techonologies []models.Techonology
+
+	if result := d.db.Find(&techonologies); result.Error != nil {
+		return nil, result.Error
+	}
+
+	return techonologies, nil
 }

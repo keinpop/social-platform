@@ -21,6 +21,7 @@ type Companies []Company
 
 // @Summary post new company in db
 // @Schemes
+// @Tags Company-API
 // @Description post new company in db
 // @Accept json
 // @Produce json
@@ -56,7 +57,6 @@ func AddCompany(c *gin.Context) {
 	case err == nil:
 		c.JSON(http.StatusCreated, Company(*res))
 	case errors.Is(err, gorm.ErrCheckConstraintViolated) || errors.Is(err, gorm.ErrDuplicatedKey):
-
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Record already exists",
 		})
@@ -68,6 +68,7 @@ func AddCompany(c *gin.Context) {
 
 // @Summary get all companies in db
 // @Schemes
+// @Tags Company-API
 // @Description get all companies in db
 // @Accept json
 // @Produce json
@@ -91,6 +92,7 @@ func GetCompanies(c *gin.Context) {
 
 // @Summary delete company in db
 // @Schemes
+// @Tags Company-API
 // @Description delete company in db
 // @Accept json
 // @Produce json

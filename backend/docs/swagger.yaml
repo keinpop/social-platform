@@ -1,13 +1,13 @@
 basePath: /api
 definitions:
-  models.Company:
+  company.Company:
     properties:
       id:
         type: integer
       title:
         type: string
     type: object
-  models.Programm:
+  programm.Programm:
     properties:
       duration:
         type: integer
@@ -16,14 +16,14 @@ definitions:
       title:
         type: string
     type: object
-  models.Role:
+  role.Role:
     properties:
       id:
         type: integer
       title:
         type: string
     type: object
-  models.Techonology:
+  technology.Techonology:
     properties:
       id:
         type: integer
@@ -44,8 +44,10 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Company'
+            $ref: '#/definitions/company.Company'
       summary: delete company in db
+      tags:
+      - Company-API
     post:
       consumes:
       - application/json
@@ -56,20 +58,10 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Company'
+            $ref: '#/definitions/company.Company'
       summary: post new company in db
-    put:
-      consumes:
-      - application/json
-      description: change company name in db
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Company'
-      summary: change company name in db
+      tags:
+      - Company-API
   /company/list:
     get:
       consumes:
@@ -82,9 +74,11 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Company'
+              $ref: '#/definitions/company.Company'
             type: array
       summary: get all companies in db
+      tags:
+      - Company-API
   /programm:
     delete:
       consumes:
@@ -96,8 +90,10 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Programm'
+            $ref: '#/definitions/programm.Programm'
       summary: delete programm in db
+      tags:
+      - Programm-API
     post:
       consumes:
       - application/json
@@ -108,8 +104,10 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Programm'
+            $ref: '#/definitions/programm.Programm'
       summary: post new programm in db
+      tags:
+      - Programm-API
   /programm/list:
     get:
       consumes:
@@ -122,9 +120,11 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Programm'
+              $ref: '#/definitions/programm.Programm'
             type: array
       summary: get all programmes in db
+      tags:
+      - Programm-API
   /role:
     delete:
       consumes:
@@ -136,8 +136,10 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Role'
+            $ref: '#/definitions/role.Role'
       summary: delete role in db
+      tags:
+      - Role-API
     post:
       consumes:
       - application/json
@@ -148,8 +150,10 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Role'
+            $ref: '#/definitions/role.Role'
       summary: post new role in db
+      tags:
+      - Role-API
   /role/list:
     get:
       consumes:
@@ -162,9 +166,11 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Role'
+              $ref: '#/definitions/role.Role'
             type: array
       summary: get all roles in db
+      tags:
+      - Role-API
   /technology:
     delete:
       consumes:
@@ -176,8 +182,10 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Techonology'
+            $ref: '#/definitions/technology.Techonology'
       summary: delete technology in db
+      tags:
+      - Techonology-API
     post:
       consumes:
       - application/json
@@ -188,8 +196,10 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Techonology'
+            $ref: '#/definitions/technology.Techonology'
       summary: post new technology in db
+      tags:
+      - Techonology-API
   /technology/list:
     get:
       consumes:
@@ -202,7 +212,9 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Techonology'
+              $ref: '#/definitions/technology.Techonology'
             type: array
       summary: get all technologies in db
+      tags:
+      - Techonology-API
 swagger: "2.0"
