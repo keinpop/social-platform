@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io"
 	"log"
+	"mai-platform/internal/clients/db/models"
 	"mai-platform/internal/middleware"
 	"net/http"
 
@@ -115,11 +116,12 @@ func DeleteCompany(c *gin.Context) {
 		return
 	}
 
-	if comp.Title == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Empty title",
-		})
-		return
+	a := middleware.GetApp(c)
+
+	err = a.DB.DeleteCompany(models.Company(comp))
+	if err != nil {
+		log.Printf("Failed to delete company: %v", err)
+		c.JSON(http.StatusInternalServerError, "")
 	}
 
 	c.JSON(http.StatusOK, comp)

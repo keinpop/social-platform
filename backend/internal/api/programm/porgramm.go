@@ -2,10 +2,12 @@ package programm
 
 import (
 	"encoding/json"
-	"gorm.io/gorm"
 	"io"
 	"log"
+	"mai-platform/internal/clients/db/models"
 	"mai-platform/internal/middleware"
+
+	"gorm.io/gorm"
 
 	"errors"
 	"net/http"
@@ -129,6 +131,14 @@ func DeleteProgramm(c *gin.Context) {
 			"error": "Empty duration",
 		})
 		return
+	}
+
+	a := middleware.GetApp(c)
+
+	err = a.DB.DeleteProgramm(models.Programm(p))
+	if err != nil {
+		log.Printf("Failed to delete programm: %v", err)
+		c.JSON(http.StatusInternalServerError, "")
 	}
 
 	c.JSON(http.StatusOK, p)

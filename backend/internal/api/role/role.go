@@ -2,11 +2,13 @@ package role
 
 import (
 	"encoding/json"
-	"gorm.io/gorm"
 	"io"
 	"log"
+	"mai-platform/internal/clients/db/models"
 	"mai-platform/internal/middleware"
 	"net/http"
+
+	"gorm.io/gorm"
 
 	"errors"
 
@@ -121,6 +123,14 @@ func DeleteRole(c *gin.Context) {
 			"error": "Empty title",
 		})
 		return
+	}
+
+	a := middleware.GetApp(c)
+
+	err = a.DB.DeleteRole(models.Role(r))
+	if err != nil {
+		log.Printf("Failed to delete programm: %v", err)
+		c.JSON(http.StatusInternalServerError, "")
 	}
 
 	c.JSON(http.StatusOK, r)

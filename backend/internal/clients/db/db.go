@@ -87,6 +87,14 @@ func (d *DB) GetCompanies() ([]models.Company, error) {
 	return companies, nil
 }
 
+func (d *DB) DeleteCompany(company models.Company) error {
+	if result := d.db.Delete(&models.Company{}, company.Id); result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}
+
 func (d *DB) AddProgramm(title string, duration uint64) (*models.Programm, error) {
 	p := models.Programm{Title: title, Duration: duration}
 
@@ -105,6 +113,14 @@ func (d *DB) GetProgrammes() ([]models.Programm, error) {
 	}
 
 	return programmes, nil
+}
+
+func (d *DB) DeleteProgramm(programm models.Programm) error {
+	if result := d.db.Delete(&models.Programm{}, programm.Id); result.Error != nil {
+		return result.Error
+	}
+
+	return nil
 }
 
 func (d *DB) AddRole(title string) (*models.Role, error) {
@@ -127,6 +143,14 @@ func (d *DB) GetRoles() ([]models.Role, error) {
 	return roles, nil
 }
 
+func (d *DB) DeleteRole(role models.Role) error {
+	if result := d.db.Delete(&models.Role{}, role.Id); result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}
+
 func (d *DB) AddTechonology(title string) (*models.Techonology, error) {
 	t := models.Techonology{Title: title}
 
@@ -145,4 +169,12 @@ func (d *DB) GetTechonologies() ([]models.Techonology, error) {
 	}
 
 	return techonologies, nil
+}
+
+func (d *DB) DeleteTechnology(tech models.Techonology) error {
+	if result := d.db.Delete(&models.Techonology{}, tech.Id); result.Error != nil {
+		return result.Error
+	}
+
+	return nil
 }
