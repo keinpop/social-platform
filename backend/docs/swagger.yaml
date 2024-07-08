@@ -43,8 +43,7 @@ paths:
       responses:
         "200":
           description: OK
-          schema:
-            $ref: '#/definitions/company.Company'
+          schema: {}
       summary: delete company in db
       tags:
       - Company-API

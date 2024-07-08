@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"log"
 	"mai-platform/internal/clients/db/models"
 
 	"gorm.io/driver/postgres"
@@ -36,7 +37,7 @@ func (d *DB) Init() error {
 		d.cfg.DataBase,
 	)
 
-	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{TranslateError: true})
+	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{TranslateError: true, AllowGlobalUpdate: true})
 	if err != nil {
 		return err
 	}
@@ -75,6 +76,20 @@ func (d *DB) AddCompany(title string) (*models.Company, error) {
 	}
 
 	return &c, nil
+}
+
+func (d *DB) DeleteCompanyByID(id uint) error {
+	result := d.db.Delete(&models.Company{}, id)
+	if result.Error != nil {
+		log.Printf("[error] Failed to delete company from database: %v", result.Error)
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		log.Printf("[error] No company found with the given id: %s", id)
+		return fmt.Errorf("no company found with the given id")
+	}
+	log.Printf("[info] Company %s deleted successfully", id)
+	return nil
 }
 
 func (d *DB) GetCompanies() ([]models.Company, error) {

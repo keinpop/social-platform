@@ -3,14 +3,13 @@ package company
 import (
 	"encoding/json"
 	"errors"
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 	"io"
 	"log"
 	"mai-platform/internal/clients/db/models"
 	"mai-platform/internal/middleware"
 	"net/http"
-
-	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 type Company struct {
@@ -91,13 +90,15 @@ func GetCompanies(c *gin.Context) {
 	c.JSON(http.StatusOK, ret)
 }
 
+//Param?????
+
 // @Summary delete company in db
 // @Schemes
 // @Tags Company-API
 // @Description delete company in db
 // @Accept json
 // @Produce json
-// @Success 200 {object} Company
+// @Success 200 {object} error
 // @Router /company [delete]
 func DeleteCompany(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
@@ -110,9 +111,8 @@ func DeleteCompany(c *gin.Context) {
 	var comp Company
 	err = json.Unmarshal(jsonData, &comp)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		log.Printf("[error] Failed to unmarshal JSON: %v", err)
+		c.JSON(http.StatusBadRequest, "")
 		return
 	}
 
@@ -124,5 +124,14 @@ func DeleteCompany(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "")
 	}
 
-	c.JSON(http.StatusOK, comp)
+	a := middleware.GetApp(c)
+	err = a.DB.DeleteCompanyByID(comp.Id)
+	if err != nil {
+		log.Printf("[error] Failed to delete company: %v", err)
+		c.JSON(http.StatusInternalServerError, "")
+		return
+	}
+
+	log.Printf("[info] Company %s deleted successfully", comp.Title)
+	c.JSON(http.StatusOK, "")
 }
