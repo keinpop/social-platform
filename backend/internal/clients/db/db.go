@@ -2,7 +2,6 @@ package db
 
 import (
 	"fmt"
-	"log"
 	"mai-platform/internal/clients/db/models"
 
 	"gorm.io/driver/postgres"
@@ -78,20 +77,6 @@ func (d *DB) AddCompany(title string) (*models.Company, error) {
 	return &c, nil
 }
 
-func (d *DB) DeleteCompanyByID(id uint) error {
-	result := d.db.Delete(&models.Company{}, id)
-	if result.Error != nil {
-		log.Printf("[error] Failed to delete company from database: %v", result.Error)
-		return result.Error
-	}
-	if result.RowsAffected == 0 {
-		log.Printf("[error] No company found with the given id: %s", id)
-		return fmt.Errorf("no company found with the given id")
-	}
-	log.Printf("[info] Company %s deleted successfully", id)
-	return nil
-}
-
 func (d *DB) GetCompanies() ([]models.Company, error) {
 	var companies []models.Company
 
@@ -103,8 +88,14 @@ func (d *DB) GetCompanies() ([]models.Company, error) {
 }
 
 func (d *DB) DeleteCompany(company models.Company) error {
-	if result := d.db.Delete(&models.Company{}, company.Id); result.Error != nil {
-		return result.Error
+	if company.Id != 0 {
+		if result := d.db.Delete(&models.Company{}, company.Id); result.Error != nil {
+			return result.Error
+		}
+	} else {
+		if result := d.db.Where("title = ?", company.Title).Delete(&models.Company{}); result.Error != nil {
+			return result.Error
+		}
 	}
 
 	return nil
@@ -131,8 +122,14 @@ func (d *DB) GetProgrammes() ([]models.Programm, error) {
 }
 
 func (d *DB) DeleteProgramm(programm models.Programm) error {
-	if result := d.db.Delete(&models.Programm{}, programm.Id); result.Error != nil {
-		return result.Error
+	if programm.Id != 0 {
+		if result := d.db.Delete(&models.Programm{}, programm.Id); result.Error != nil {
+			return result.Error
+		}
+	} else {
+		if result := d.db.Where("title = ?", programm.Title).Delete(&models.Programm{}); result.Error != nil {
+			return result.Error
+		}
 	}
 
 	return nil
@@ -159,8 +156,14 @@ func (d *DB) GetRoles() ([]models.Role, error) {
 }
 
 func (d *DB) DeleteRole(role models.Role) error {
-	if result := d.db.Delete(&models.Role{}, role.Id); result.Error != nil {
-		return result.Error
+	if role.Id != 0 {
+		if result := d.db.Delete(&models.Programm{}, role.Id); result.Error != nil {
+			return result.Error
+		}
+	} else {
+		if result := d.db.Where("title = ?", role.Title).Delete(&models.Programm{}); result.Error != nil {
+			return result.Error
+		}
 	}
 
 	return nil
@@ -187,8 +190,14 @@ func (d *DB) GetTechonologies() ([]models.Techonology, error) {
 }
 
 func (d *DB) DeleteTechnology(tech models.Techonology) error {
-	if result := d.db.Delete(&models.Techonology{}, tech.Id); result.Error != nil {
-		return result.Error
+	if tech.Id != 0 {
+		if result := d.db.Delete(&models.Techonology{}, tech.Id); result.Error != nil {
+			return result.Error
+		}
+	} else {
+		if result := d.db.Where("title = ?", tech.Title).Delete(&models.Techonology{}); result.Error != nil {
+			return result.Error
+		}
 	}
 
 	return nil

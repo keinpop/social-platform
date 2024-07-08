@@ -22,7 +22,7 @@ type Companies []Company
 // @Summary post new company in db
 // @Schemes
 // @Tags Company-API
-// @Description post new company in db
+// @Description Usage example: 'curl -X POST -v -H "Content-Type: application/json" -d '{"title":"Yandex"}' http://localhost:8080/api/company'
 // @Accept json
 // @Produce json
 // @Success 200 {object} Company
@@ -69,7 +69,7 @@ func AddCompany(c *gin.Context) {
 // @Summary get all companies in db
 // @Schemes
 // @Tags Company-API
-// @Description get all companies in db
+// @Description Usage example: 'curl http://localhost:8080/api/company/list'
 // @Accept json
 // @Produce json
 // @Success 200 {object} Companies
@@ -90,12 +90,10 @@ func GetCompanies(c *gin.Context) {
 	c.JSON(http.StatusOK, ret)
 }
 
-//Param?????
-
 // @Summary delete company in db
 // @Schemes
 // @Tags Company-API
-// @Description delete company in db
+// @Description Usage Example: 'curl -X DELETE -v -H "Content-Type: application/json" -d '{"title":"JetBrains"}' http://localhost:8080/api/company/'
 // @Accept json
 // @Produce json
 // @Success 200 {object} error
@@ -124,14 +122,5 @@ func DeleteCompany(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, "")
 	}
 
-	a := middleware.GetApp(c)
-	err = a.DB.DeleteCompanyByID(comp.Id)
-	if err != nil {
-		log.Printf("[error] Failed to delete company: %v", err)
-		c.JSON(http.StatusInternalServerError, "")
-		return
-	}
-
-	log.Printf("[info] Company %s deleted successfully", comp.Title)
 	c.JSON(http.StatusOK, "")
 }

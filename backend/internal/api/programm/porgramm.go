@@ -26,7 +26,7 @@ type Programmes []Programm
 // @Summary post new programm in db
 // @Schemes
 // @Tags Programm-API
-// @Description post new programm in db
+// @Description Usage example: 'curl -X POST -v -H "Content-Type: application/json" -d '{"title":"ПМИ"}' http://localhost:8080/api/programm'
 // @Accept json
 // @Produce json
 // @Success 200 {object} Programm
@@ -73,7 +73,7 @@ func AddProgramm(c *gin.Context) {
 // @Summary get all programmes in db
 // @Schemes
 // @Tags Programm-API
-// @Description get all programmes in db
+// @Description Usage example: 'curl http://localhost:8080/api/programm/list'
 // @Accept json
 // @Produce json
 // @Success 200 {object} Programmes
@@ -97,7 +97,7 @@ func GetProgrammes(c *gin.Context) {
 // @Summary delete programm in db
 // @Schemes
 // @Tags Programm-API
-// @Description delete programm in db
+// @Description Usage example: 'curl -X DELETE -v -H "Content-Type: application/json" -d '{"title":"ФИИТ"}' http://localhost:8080/api/programm/'
 // @Accept json
 // @Produce json
 // @Success 200 {object} Programm
@@ -115,20 +115,6 @@ func DeleteProgramm(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
-		})
-		return
-	}
-
-	if p.Title == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Empty title",
-		})
-		return
-	}
-
-	if p.Duration == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Empty duration",
 		})
 		return
 	}

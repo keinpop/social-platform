@@ -44,11 +44,11 @@ func main() {
 
 	r.POST("/api/role", role.AddRole)
 	r.GET("/api/role/list", role.GetRoles)
-	r.DELETE("/api/role", role.DeleteRole)
+	r.DELETE("/api/role/", role.DeleteRole)
 
 	r.POST("/api/technology", technology.AddTechnology)
 	r.GET("/api/technology/list", technology.GetTechnologies)
-	r.DELETE("/api/technology", technology.DeleteTechnology)
+	r.DELETE("/api/technology/", technology.DeleteTechnology)
 
 	r.POST("/api/company", company.AddCompany)
 	r.GET("/api/company/list", company.GetCompanies)
