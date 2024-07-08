@@ -6,32 +6,32 @@ import (
 
 type Company struct {
 	Id    uint   `json:"id" gorm:"primaryKey"`
-	Title string `json:"title" gorm:"unique"`
+	Title string `json:"title" gorm:"unique;not null"`
 }
 
 type Programm struct {
 	Id       uint64 `json:"id" gorm:"primaryKey"`
-	Title    string `json:"title" gorm:"unique"`
-	Duration uint64 `json:"duration"`
+	Title    string `json:"title" gorm:"unique;not null"`
+	Duration uint64 `json:"duration" gorm:"not null"`
 }
 
 type Role struct {
 	Id    uint   `json:"id" gorm:"primaryKey"`
-	Title string `json:"title" gorm:"unique"`
+	Title string `json:"title" gorm:"unique;not null"`
 }
 
 type Techonology struct {
 	Id    uint64 `json:"id" gorm:"primaryKey"`
-	Title string `json:"title" gorm:"unique"`
+	Title string `json:"title" gorm:"unique;not null"`
 }
 
 type User struct {
 	Id            uint          `json:"id" gorm:"primaryKey"`
-	Name          string        `json:"name"`
-	Fathername    string        `json:"fathername"`
-	Surname       string        `json:"surname"`
-	Mail          string        `json:"mail" gorm:"unique"`
-	Password      string        `json:"password"`
+	Name          string        `json:"name" gorm:"not null"`
+	Fathername    string        `json:"fathername" gorm:"not null"`
+	Surname       string        `json:"surname" gorm:"not null"`
+	Mail          string        `json:"mail" gorm:"unique;not null"`
+	Password      string        `json:"password" gorm:"not null"`
 	AvatarURL     string        `json:"avatar_url"`
 	Techonologies []Techonology `json:"technologies" gorm:"many2many:user_technologies;"`
 	Companies     []Company     `json:"companies" gorm:"many2many:user_companies;"`
@@ -43,7 +43,7 @@ type UserCompanies struct {
 	CompanyID uint `json:"company_id" gorm:"primaryKey"`
 
 	Description string    `json:"description"`
-	StartDate   time.Time `json:"start_date"`
+	StartDate   time.Time `json:"start_date" gorm:"not null"`
 	EndDate     time.Time `json:"end_date"`
 }
 
@@ -51,9 +51,9 @@ type Student struct {
 	UserID uint `json:"user_id" gorm:"primaryKey"`
 	User   User
 
-	EnterDate     time.Time `json:"enter_date"`
+	EnterDate     time.Time `json:"enter_date" gorm:"not null"`
 	Role          Role      `json:"role" gorm:"many2many:student_roles;"`
-	CurrentCourse string    `json:"current_course"`
+	CurrentCourse string    `json:"current_course" gorm:"not null"`
 	Programm      Programm  `json:"programm" gorm:"many2many:student_programms;"`
 }
 

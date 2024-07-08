@@ -36,7 +36,7 @@ func (d *DB) Init() error {
 		d.cfg.DataBase,
 	)
 
-	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{TranslateError: true})
+	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{TranslateError: true, AllowGlobalUpdate: true})
 	if err != nil {
 		return err
 	}
@@ -87,6 +87,20 @@ func (d *DB) GetCompanies() ([]models.Company, error) {
 	return companies, nil
 }
 
+func (d *DB) DeleteCompany(company models.Company) error {
+	if company.Id != 0 {
+		if result := d.db.Delete(&models.Company{}, company.Id); result.Error != nil {
+			return result.Error
+		}
+	} else {
+		if result := d.db.Where("title = ?", company.Title).Delete(&models.Company{}); result.Error != nil {
+			return result.Error
+		}
+	}
+
+	return nil
+}
+
 func (d *DB) AddProgramm(title string, duration uint64) (*models.Programm, error) {
 	p := models.Programm{Title: title, Duration: duration}
 
@@ -105,6 +119,20 @@ func (d *DB) GetProgrammes() ([]models.Programm, error) {
 	}
 
 	return programmes, nil
+}
+
+func (d *DB) DeleteProgramm(programm models.Programm) error {
+	if programm.Id != 0 {
+		if result := d.db.Delete(&models.Programm{}, programm.Id); result.Error != nil {
+			return result.Error
+		}
+	} else {
+		if result := d.db.Where("title = ?", programm.Title).Delete(&models.Programm{}); result.Error != nil {
+			return result.Error
+		}
+	}
+
+	return nil
 }
 
 func (d *DB) AddRole(title string) (*models.Role, error) {
@@ -127,6 +155,20 @@ func (d *DB) GetRoles() ([]models.Role, error) {
 	return roles, nil
 }
 
+func (d *DB) DeleteRole(role models.Role) error {
+	if role.Id != 0 {
+		if result := d.db.Delete(&models.Programm{}, role.Id); result.Error != nil {
+			return result.Error
+		}
+	} else {
+		if result := d.db.Where("title = ?", role.Title).Delete(&models.Programm{}); result.Error != nil {
+			return result.Error
+		}
+	}
+
+	return nil
+}
+
 func (d *DB) AddTechonology(title string) (*models.Techonology, error) {
 	t := models.Techonology{Title: title}
 
@@ -145,4 +187,18 @@ func (d *DB) GetTechonologies() ([]models.Techonology, error) {
 	}
 
 	return techonologies, nil
+}
+
+func (d *DB) DeleteTechnology(tech models.Techonology) error {
+	if tech.Id != 0 {
+		if result := d.db.Delete(&models.Techonology{}, tech.Id); result.Error != nil {
+			return result.Error
+		}
+	} else {
+		if result := d.db.Where("title = ?", tech.Title).Delete(&models.Techonology{}); result.Error != nil {
+			return result.Error
+		}
+	}
+
+	return nil
 }

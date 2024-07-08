@@ -2,4 +2,4 @@ run:
 	go run mai-platform/cmd/app
 
 swagger:
-	swag init -g ./cmd/app/main.go -o ./docs
+	$$(go env GOPATH)/bin/swag init -g ./cmd/app/main.go -o ./docs

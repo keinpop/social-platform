@@ -2,11 +2,13 @@ package role
 
 import (
 	"encoding/json"
-	"gorm.io/gorm"
 	"io"
 	"log"
+	"mai-platform/internal/clients/db/models"
 	"mai-platform/internal/middleware"
 	"net/http"
+
+	"gorm.io/gorm"
 
 	"errors"
 
@@ -23,7 +25,7 @@ type Roles []Role
 // @Summary post new role in db
 // @Schemes
 // @Tags Role-API
-// @Description post new role in db
+// @Description Usage example: 'curl -X POST -v -H "Content-Type: application/json" -d '{"title":"Backend-разработчик"}' http://localhost:8080/api/role'
 // @Accept json
 // @Produce json
 // @Success 200 {object} Role
@@ -70,7 +72,7 @@ func AddRole(c *gin.Context) {
 // @Summary get all roles in db
 // @Schemes
 // @Tags Role-API
-// @Description get all roles in db
+// @Description Usage example: 'curl http://localhost:8080/api/role/list'
 // @Accept json
 // @Produce json
 // @Success 200 {object} Roles
@@ -94,7 +96,7 @@ func GetRoles(c *gin.Context) {
 // @Summary delete role in db
 // @Schemes
 // @Tags Role-API
-// @Description delete role in db
+// @Description Usage example: 'curl -X DELETE -v -H "Content-Type: application/json" -d '{"title":"Frontend-разработчик"}' http://localhost:8080/api/role/'
 // @Accept json
 // @Produce json
 // @Success 200 {object} Role
@@ -116,11 +118,12 @@ func DeleteRole(c *gin.Context) {
 		return
 	}
 
-	if r.Title == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Empty title",
-		})
-		return
+	a := middleware.GetApp(c)
+
+	err = a.DB.DeleteRole(models.Role(r))
+	if err != nil {
+		log.Printf("Failed to delete programm: %v", err)
+		c.JSON(http.StatusInternalServerError, "")
 	}
 
 	c.JSON(http.StatusOK, r)

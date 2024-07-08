@@ -40,15 +40,15 @@ func main() {
 
 	r.POST("/api/progrmm", programm.AddProgramm)
 	r.GET("/api/programm/list", programm.GetProgrammes)
-	r.DELETE("/api/programm", programm.DeleteProgramm)
+	r.DELETE("/api/programm/", programm.DeleteProgramm)
 
 	r.POST("/api/role", role.AddRole)
 	r.GET("/api/role/list", role.GetRoles)
-	r.DELETE("/api/role", role.DeleteRole)
+	r.DELETE("/api/role/", role.DeleteRole)
 
 	r.POST("/api/technology", technology.AddTechnology)
 	r.GET("/api/technology/list", technology.GetTechnologies)
-	r.DELETE("/api/technology", technology.DeleteTechnology)
+	r.DELETE("/api/technology/", technology.DeleteTechnology)
 
 	r.POST("/api/company", company.AddCompany)
 	r.GET("/api/company/list", company.GetCompanies)

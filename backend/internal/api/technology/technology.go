@@ -2,11 +2,13 @@ package technology
 
 import (
 	"encoding/json"
-	"gorm.io/gorm"
 	"io"
 	"log"
+	"mai-platform/internal/clients/db/models"
 	"mai-platform/internal/middleware"
 	"net/http"
+
+	"gorm.io/gorm"
 
 	"errors"
 
@@ -23,7 +25,7 @@ type Technologies []Techonology
 // @Summary post new technology in db
 // @Schemes
 // @Tags Techonology-API
-// @Description post new technology in db
+// @Description Usage example: 'curl -X POST -v -H "Content-Type: application/json" -d '{"title":"Golang"}' http://localhost:8080/api/technology'
 // @Accept json
 // @Produce json
 // @Success 200 {object} Techonology
@@ -70,7 +72,7 @@ func AddTechnology(c *gin.Context) {
 // @Summary get all technologies in db
 // @Schemes
 // @Tags Techonology-API
-// @Description get all technologies in db
+// @Description Usage example: 'curl http://localhost:8080/api/technology/list'
 // @Accept json
 // @Produce json
 // @Success 200 {object} Technologies
@@ -94,7 +96,7 @@ func GetTechnologies(c *gin.Context) {
 // @Summary delete technology in db
 // @Schemes
 // @Tags Techonology-API
-// @Description delete technology in db
+// @Description Usage example: 'curl -X DELETE -v -H "Content-Type: application/json" -d '{"title":"Python"}' http://localhost:8080/api/technology/'
 // @Accept json
 // @Produce json
 // @Success 200 {object} Techonology
@@ -116,11 +118,12 @@ func DeleteTechnology(c *gin.Context) {
 		return
 	}
 
-	if t.Title == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Empty title",
-		})
-		return
+	a := middleware.GetApp(c)
+
+	err = a.DB.DeleteTechnology(models.Techonology(t))
+	if err != nil {
+		log.Printf("Failed to delete technology: %v", err)
+		c.JSON(http.StatusInternalServerError, "")
 	}
 
 	c.JSON(http.StatusOK, t)

@@ -17,7 +17,7 @@ const docTemplate = `{
     "paths": {
         "/company": {
             "post": {
-                "description": "post new company in db",
+                "description": "Usage example: 'curl -X POST -v -H \"Content-Type: application/json\" -d '{\"title\":\"Yandex\"}' http://localhost:8080/api/company'",
                 "consumes": [
                     "application/json"
                 ],
@@ -38,7 +38,7 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "delete company in db",
+                "description": "Usage Example: 'curl -X DELETE -v -H \"Content-Type: application/json\" -d '{\"title\":\"JetBrains\"}' http://localhost:8080/api/company/'",
                 "consumes": [
                     "application/json"
                 ],
@@ -52,16 +52,14 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/company.Company"
-                        }
+                        "schema": {}
                     }
                 }
             }
         },
         "/company/list": {
             "get": {
-                "description": "get all companies in db",
+                "description": "Usage example: 'curl http://localhost:8080/api/company/list'",
                 "consumes": [
                     "application/json"
                 ],
@@ -87,7 +85,7 @@ const docTemplate = `{
         },
         "/programm": {
             "post": {
-                "description": "post new programm in db",
+                "description": "Usage example: 'curl -X POST -v -H \"Content-Type: application/json\" -d '{\"title\":\"ПМИ\"}' http://localhost:8080/api/programm'",
                 "consumes": [
                     "application/json"
                 ],
@@ -108,7 +106,7 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "delete programm in db",
+                "description": "Usage example: 'curl -X DELETE -v -H \"Content-Type: application/json\" -d '{\"title\":\"ФИИТ\"}' http://localhost:8080/api/programm/'",
                 "consumes": [
                     "application/json"
                 ],
@@ -131,7 +129,7 @@ const docTemplate = `{
         },
         "/programm/list": {
             "get": {
-                "description": "get all programmes in db",
+                "description": "Usage example: 'curl http://localhost:8080/api/programm/list'",
                 "consumes": [
                     "application/json"
                 ],
@@ -157,7 +155,7 @@ const docTemplate = `{
         },
         "/role": {
             "post": {
-                "description": "post new role in db",
+                "description": "Usage example: 'curl -X POST -v -H \"Content-Type: application/json\" -d '{\"title\":\"Backend-разработчик\"}' http://localhost:8080/api/role'",
                 "consumes": [
                     "application/json"
                 ],
@@ -178,7 +176,7 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "delete role in db",
+                "description": "Usage example: 'curl -X DELETE -v -H \"Content-Type: application/json\" -d '{\"title\":\"Frontend-разработчик\"}' http://localhost:8080/api/role/'",
                 "consumes": [
                     "application/json"
                 ],
@@ -201,7 +199,7 @@ const docTemplate = `{
         },
         "/role/list": {
             "get": {
-                "description": "get all roles in db",
+                "description": "Usage example: 'curl http://localhost:8080/api/role/list'",
                 "consumes": [
                     "application/json"
                 ],
@@ -227,7 +225,7 @@ const docTemplate = `{
         },
         "/technology": {
             "post": {
-                "description": "post new technology in db",
+                "description": "Usage example: 'curl -X POST -v -H \"Content-Type: application/json\" -d '{\"title\":\"Golang\"}' http://localhost:8080/api/technology'",
                 "consumes": [
                     "application/json"
                 ],
@@ -248,7 +246,7 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "delete technology in db",
+                "description": "Usage example: 'curl -X DELETE -v -H \"Content-Type: application/json\" -d '{\"title\":\"Python\"}' http://localhost:8080/api/technology/'",
                 "consumes": [
                     "application/json"
                 ],
@@ -271,7 +269,7 @@ const docTemplate = `{
         },
         "/technology/list": {
             "get": {
-                "description": "get all technologies in db",
+                "description": "Usage example: 'curl http://localhost:8080/api/technology/list'",
                 "consumes": [
                     "application/json"
                 ],

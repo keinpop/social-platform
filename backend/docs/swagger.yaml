@@ -37,21 +37,22 @@ paths:
     delete:
       consumes:
       - application/json
-      description: delete company in db
+      description: 'Usage Example: ''curl -X DELETE -v -H "Content-Type: application/json"
+        -d ''{"title":"JetBrains"}'' http://localhost:8080/api/company/'''
       produces:
       - application/json
       responses:
         "200":
           description: OK
-          schema:
-            $ref: '#/definitions/company.Company'
+          schema: {}
       summary: delete company in db
       tags:
       - Company-API
     post:
       consumes:
       - application/json
-      description: post new company in db
+      description: 'Usage example: ''curl -X POST -v -H "Content-Type: application/json"
+        -d ''{"title":"Yandex"}'' http://localhost:8080/api/company'''
       produces:
       - application/json
       responses:
@@ -66,7 +67,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: get all companies in db
+      description: 'Usage example: ''curl http://localhost:8080/api/company/list'''
       produces:
       - application/json
       responses:
@@ -83,7 +84,8 @@ paths:
     delete:
       consumes:
       - application/json
-      description: delete programm in db
+      description: 'Usage example: ''curl -X DELETE -v -H "Content-Type: application/json"
+        -d ''{"title":"ФИИТ"}'' http://localhost:8080/api/programm/'''
       produces:
       - application/json
       responses:
@@ -97,7 +99,8 @@ paths:
     post:
       consumes:
       - application/json
-      description: post new programm in db
+      description: 'Usage example: ''curl -X POST -v -H "Content-Type: application/json"
+        -d ''{"title":"ПМИ"}'' http://localhost:8080/api/programm'''
       produces:
       - application/json
       responses:
@@ -112,7 +115,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: get all programmes in db
+      description: 'Usage example: ''curl http://localhost:8080/api/programm/list'''
       produces:
       - application/json
       responses:
@@ -129,7 +132,8 @@ paths:
     delete:
       consumes:
       - application/json
-      description: delete role in db
+      description: 'Usage example: ''curl -X DELETE -v -H "Content-Type: application/json"
+        -d ''{"title":"Frontend-разработчик"}'' http://localhost:8080/api/role/'''
       produces:
       - application/json
       responses:
@@ -143,7 +147,8 @@ paths:
     post:
       consumes:
       - application/json
-      description: post new role in db
+      description: 'Usage example: ''curl -X POST -v -H "Content-Type: application/json"
+        -d ''{"title":"Backend-разработчик"}'' http://localhost:8080/api/role'''
       produces:
       - application/json
       responses:
@@ -158,7 +163,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: get all roles in db
+      description: 'Usage example: ''curl http://localhost:8080/api/role/list'''
       produces:
       - application/json
       responses:
@@ -175,7 +180,8 @@ paths:
     delete:
       consumes:
       - application/json
-      description: delete technology in db
+      description: 'Usage example: ''curl -X DELETE -v -H "Content-Type: application/json"
+        -d ''{"title":"Python"}'' http://localhost:8080/api/technology/'''
       produces:
       - application/json
       responses:
@@ -189,7 +195,8 @@ paths:
     post:
       consumes:
       - application/json
-      description: post new technology in db
+      description: 'Usage example: ''curl -X POST -v -H "Content-Type: application/json"
+        -d ''{"title":"Golang"}'' http://localhost:8080/api/technology'''
       produces:
       - application/json
       responses:
@@ -204,7 +211,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: get all technologies in db
+      description: 'Usage example: ''curl http://localhost:8080/api/technology/list'''
       produces:
       - application/json
       responses:

@@ -3,13 +3,13 @@ package company
 import (
 	"encoding/json"
 	"errors"
-	"io"
-	"log"
-	"mai-platform/internal/middleware"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"io"
+	"log"
+	"mai-platform/internal/clients/db/models"
+	"mai-platform/internal/middleware"
+	"net/http"
 )
 
 type Company struct {
@@ -22,7 +22,7 @@ type Companies []Company
 // @Summary post new company in db
 // @Schemes
 // @Tags Company-API
-// @Description post new company in db
+// @Description Usage example: 'curl -X POST -v -H "Content-Type: application/json" -d '{"title":"Yandex"}' http://localhost:8080/api/company'
 // @Accept json
 // @Produce json
 // @Success 200 {object} Company
@@ -69,7 +69,7 @@ func AddCompany(c *gin.Context) {
 // @Summary get all companies in db
 // @Schemes
 // @Tags Company-API
-// @Description get all companies in db
+// @Description Usage example: 'curl http://localhost:8080/api/company/list'
 // @Accept json
 // @Produce json
 // @Success 200 {object} Companies
@@ -93,10 +93,10 @@ func GetCompanies(c *gin.Context) {
 // @Summary delete company in db
 // @Schemes
 // @Tags Company-API
-// @Description delete company in db
+// @Description Usage Example: 'curl -X DELETE -v -H "Content-Type: application/json" -d '{"title":"JetBrains"}' http://localhost:8080/api/company/'
 // @Accept json
 // @Produce json
-// @Success 200 {object} Company
+// @Success 200 {object} error
 // @Router /company [delete]
 func DeleteCompany(c *gin.Context) {
 	jsonData, err := io.ReadAll(c.Request.Body)
@@ -109,18 +109,18 @@ func DeleteCompany(c *gin.Context) {
 	var comp Company
 	err = json.Unmarshal(jsonData, &comp)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		log.Printf("[error] Failed to unmarshal JSON: %v", err)
+		c.JSON(http.StatusBadRequest, "")
 		return
 	}
 
-	if comp.Title == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Empty title",
-		})
-		return
+	a := middleware.GetApp(c)
+
+	err = a.DB.DeleteCompany(models.Company(comp))
+	if err != nil {
+		log.Printf("Failed to delete company: %v", err)
+		c.JSON(http.StatusInternalServerError, "")
 	}
 
-	c.JSON(http.StatusOK, comp)
+	c.JSON(http.StatusOK, "")
 }
