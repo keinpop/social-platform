@@ -23,6 +23,10 @@ type Workplace struct {
 
 type Workplaces []Workplace
 
+type CreateUserParams struct {
+	isStudent bool
+}
+
 type User struct {
 	Id          uint                    `json:"id"`
 	Name        string                  `json:"name"`
@@ -34,7 +38,8 @@ type User struct {
 	About       string                  `json:"about"`
 
 	StudentProfile *Student
-	TeacherProfule *Teacher
+	TeacherProfile *Teacher
+	AdminProfile   *Admin
 }
 
 type Student struct {
@@ -48,6 +53,26 @@ type Teacher struct {
 	StudyingYears uint `json:"studying_years"`
 }
 
+type Admin struct {
+}
+
+func CreateNewUser(c *gin.Context) {
+	// идет в авторизацию
+	// пытается создать
+	// если ок - добавляем данные по юзеру в бд
+	// иначе возвращаем
+}
+
+// API-регстрации : (login password flag) -> регистрация в api авторизации +
+// добавления юзера в таблицу user + создание профиля учителя/студента
+//
+// API-редактирования : (id) -> редактирование фио, о себе, роль
+// API-добавление технологий : (idUser idTechnology)
+// API-добавление компании :   (idUser idCompany)
+// API-добавление роль :       (idUser idRole)
+// API-добавление курса :      (idUser idCourse)
+
+// Доделать
 func GetUserData(c *gin.Context) {
 	// TODO: use db
 	jsonData, err := io.ReadAll(c.Request.Body)

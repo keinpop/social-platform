@@ -1,4 +1,5 @@
-port: 8080
+port: 8090
+secret_key: "abc"
 db: 
   login: postgres
   password: db-frknz

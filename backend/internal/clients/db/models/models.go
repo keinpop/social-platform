@@ -27,15 +27,18 @@ type Techonology struct {
 
 type User struct {
 	Id            uint          `json:"id" gorm:"primaryKey"`
+	Mail          string        `json:"mail" gorm:"unique;not null"`
 	Name          string        `json:"name" gorm:"not null"`
 	Fathername    string        `json:"fathername" gorm:"not null"`
 	Surname       string        `json:"surname" gorm:"not null"`
-	Mail          string        `json:"mail" gorm:"unique;not null"`
-	Password      string        `json:"password" gorm:"not null"`
 	AvatarURL     string        `json:"avatar_url"`
 	Techonologies []Techonology `json:"technologies" gorm:"many2many:user_technologies;"`
 	Companies     []Company     `json:"companies" gorm:"many2many:user_companies;"`
 	About         string        `json:"about"`
+
+	Student *Student
+	Teacher *Teacher
+	Admin   *Admin
 }
 
 type UserCompanies struct {
@@ -67,4 +70,9 @@ type Teacher struct {
 type Admin struct {
 	UserID uint `json:"user_id" gorm:"primaryKey"`
 	User   User
+}
+
+type UserHash struct {
+	Login        string `gorm:"primaryKey"`
+	PasswordHash string
 }

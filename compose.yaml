@@ -1,6 +1,6 @@
 services:
-  backend:
-    container_name: proj-backend
+  backend-app:
+    container_name: proj-backend-app
     image: golang:1.22-bookworm
     volumes:
       - ./backend/:/app
@@ -8,7 +8,23 @@ services:
     working_dir: /app
     ports:
       - 8080:8080
-    command: make run
+    command: make run-app
+    secrets:
+      - db-password
+    depends_on:
+      db:
+        condition: service_healthy
+
+  backend-auth:
+    container_name: proj-backend-auth
+    image: golang:1.22-bookworm
+    volumes:
+      - ./backend/:/app
+      - go-data:/go
+    working_dir: /app
+    ports:
+      - 8090:8090
+    command: make run-auth
     secrets:
       - db-password
     depends_on:

@@ -62,9 +62,31 @@ func (d *DB) Migrate() error {
 		&models.Student{},
 		&models.Teacher{},
 		&models.Admin{},
+		&models.UserHash{},
 	)
 
 	return err
+}
+
+func (d *DB) Register(login, passwordHash string) error {
+	u := models.UserHash{
+		Login:        login,
+		PasswordHash: passwordHash,
+	}
+
+	result := d.db.Create(&u)
+
+	return result.Error
+}
+
+func (d *DB) CheckHash(login, passwordHash string) (bool, error) {
+	var uh models.UserHash
+	result := d.db.First(&uh, "login = ?", login)
+	if result.Error != nil {
+		return false, result.Error
+	}
+
+	return uh.PasswordHash == passwordHash, nil
 }
 
 func (d *DB) AddCompany(title string) (*models.Company, error) {
