@@ -3,6 +3,7 @@ package user
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -10,10 +11,13 @@ import (
 	"mai-platform/internal/api/programm"
 	"mai-platform/internal/api/role"
 	"mai-platform/internal/api/technology"
+	"mai-platform/internal/clients/db/models"
+	"mai-platform/internal/middleware"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type Workplace struct {
@@ -31,6 +35,7 @@ type CreateUserParams struct {
 
 type User struct {
 	Id          uint                    `json:"id"`
+	Mail        string                  `json:"mail"`
 	Name        string                  `json:"name"`
 	Fathername  string                  `json:"fathername"`
 	Surname     string                  `json:"surname"`
@@ -69,6 +74,14 @@ type UserRequest struct {
 // 	Password string `form:"password" json:"password" binding:"required"`
 // }
 
+// @Summary post new user in db
+// @Schemes
+// @Tags User-API
+// @Description Usage example: 'curl -X POST -v -H "Content-Type: application/json" -d '{"mail":"test@mail.com", "password":"password123", "is_student":true}' http://localhost:8080/api/user'
+// @Accept json
+// @Produce json
+// @Success 200 {object} User
+// @Router /user [post]
 func AddUser(c *gin.Context) {
 	// идет в авторизацию
 	// пытается создать
@@ -94,7 +107,20 @@ func AddUser(c *gin.Context) {
 	}
 	defer resp.Body.Close()
 
-	c.JSON(http.StatusCreated, "OK")
+	a := middleware.GetApp(c)
+
+	res, err := a.DB.AddUser(ur.Mail, ur.IsStudent)
+	switch {
+	case err == nil:
+		c.JSON(http.StatusCreated, models.User(*res))
+	case errors.Is(err, gorm.ErrCheckConstraintViolated) || errors.Is(err, gorm.ErrDuplicatedKey):
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Record already exists",
+		})
+	default:
+		log.Printf("Failed to create User: %v", err)
+		c.JSON(http.StatusInternalServerError, "")
+	}
 }
 
 // API-регстрации : (login password flag) -> регистрация в api авторизации +

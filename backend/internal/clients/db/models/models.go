@@ -28,9 +28,9 @@ type Techonology struct {
 type User struct {
 	Id            uint          `json:"id" gorm:"primaryKey"`
 	Mail          string        `json:"mail" gorm:"unique;not null"`
-	Name          string        `json:"name" gorm:"not null"`
-	Fathername    string        `json:"fathername" gorm:"not null"`
-	Surname       string        `json:"surname" gorm:"not null"`
+	Name          string        `json:"name"`
+	Fathername    string        `json:"fathername"`
+	Surname       string        `json:"surname"`
 	AvatarURL     string        `json:"avatar_url"`
 	Techonologies []Techonology `json:"technologies" gorm:"many2many:user_technologies;"`
 	Companies     []Company     `json:"companies" gorm:"many2many:user_companies;"`

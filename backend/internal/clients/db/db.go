@@ -100,6 +100,28 @@ func (d *DB) CheckHash(login, password string) (bool, error) {
 	return true, nil
 }
 
+func (d *DB) AddUser(mail string, isStudent bool) (*models.User, error) {
+	u := models.User{Mail: mail}
+	r := models.Role{
+		Title: "unknown",
+	}
+	if isStudent {
+		s := models.Student{
+			Role: r,
+		}
+		u.Student = &s
+	} else {
+		t := models.Teacher{}
+		u.Teacher = &t
+	}
+
+	if result := d.db.Create(&u); result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &u, nil
+}
+
 func (d *DB) AddCompany(title string) (*models.Company, error) {
 	c := models.Company{Title: title}
 
