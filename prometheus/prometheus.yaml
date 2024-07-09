@@ -19,7 +19,7 @@ scrape_configs:
   static_configs:
   - targets:
     - prometheus:9090
-- job_name: backend
+- job_name: backend-app
   honor_timestamps: true
   scrape_interval: 15s
   scrape_timeout: 10s
@@ -27,4 +27,4 @@ scrape_configs:
   scheme: http
   static_configs:
   - targets:
-    - backend:8080
+    - backend-app:8080

@@ -10,6 +10,8 @@ import (
 	"net/mail"
 	"time"
 
+	"golang.org/x/crypto/bcrypt"
+
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -41,9 +43,13 @@ func (auth *Auth) Init() error {
 }
 
 func (auth *Auth) hashPassword(login, password string) (string, error) {
-	// s := sha256.Sum256([]byte(login + password))
-	// TODO: нормально сделать
-	return login + password, nil
+	tmp := []byte(login + password)
+	hashedPassword, err := bcrypt.GenerateFromPassword(tmp, bcrypt.DefaultCost)
+	if err != nil {
+		log.Printf("[error] failed to hash password: %v]", err)
+		return "", err
+	}
+	return string(hashedPassword), nil
 }
 
 type LoginPassword struct {
@@ -107,20 +113,12 @@ func (auth *Auth) CheckToken(c *gin.Context) {
 func (auth *Auth) getAuthentificator() func(c *gin.Context) (interface{}, error) {
 	return func(c *gin.Context) (interface{}, error) {
 		var lp LoginPassword
-		log.Print("HUY")
 		if err := c.ShouldBind(&lp); err != nil {
 			log.Print(err)
 			return "", jwt.ErrMissingLoginValues
 		}
 
-		hp, err := auth.hashPassword(lp.Login, lp.Password)
-		if err != nil {
-			log.Printf("[error] Failed to hash password: %v", err)
-			c.JSON(http.StatusInternalServerError, "")
-		}
-
-		ok, err := auth.DB.CheckHash(lp.Login, hp)
-		log.Print(ok, err)
+		ok, err := auth.DB.CheckHash(lp.Login, lp.Password)
 		if ok && err == nil {
 			return lp.Login, nil
 		}
