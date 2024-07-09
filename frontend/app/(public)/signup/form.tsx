@@ -13,8 +13,8 @@ export function SignupForm() {
     <form action={action}>
       <div className="flex flex-col gap-2">
         <div>
-          <Label htmlFor="name" className="text-blue-950">Имя</Label>
-          <Input id="name" name="name" placeholder="Иван Иванов" />
+          <Label htmlFor="name" className="text-blue-950">ФИО</Label>
+          <Input id="name" name="name" placeholder="Иванов Иван Иванович" />
         </div>
         {state?.errors?.name && (
           <p className="text-sm text-red-500">{state.errors.name}</p>

@@ -3,7 +3,7 @@ import { decrypt } from '@/app/auth/02-stateless-session';
 import { cookies } from 'next/headers';
 
 // 1. Specify protected and public routes
-const protectedRoutes = ['/dashboard'];
+const protectedRoutes = ['/dashboard!!!!!!!!!!!'];
 const publicRoutes = ['/login', '/signup', '/'];
 
 export default async function middleware(req: NextRequest) {
@@ -24,9 +24,9 @@ export default async function middleware(req: NextRequest) {
   if (
     isPublicRoute &&
     session?.userId &&
-    !req.nextUrl.pathname.startsWith('/dashboard')
+    !req.nextUrl.pathname.startsWith('/dashboard!!!!!!!!!!!')
   ) {
-    return NextResponse.redirect(new URL('/dashboard', req.nextUrl));
+    return NextResponse.redirect(new URL('/dashboard!!!!!!!!!!!', req.nextUrl));
   }
 
   return NextResponse.next();

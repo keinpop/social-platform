@@ -17,7 +17,7 @@ export default function Page() {
           className="inline-flex h-10 items-center text-blue-950 justify-center rounded-md border border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
           href="/signup"
         >
-          Зарегестрироваться
+          Зарегистрироваться
         </Link>
       </div>
     </div>

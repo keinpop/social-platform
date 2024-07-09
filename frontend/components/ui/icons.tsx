@@ -1,3 +1,6 @@
+import Image from 'next/image'
+import React from 'react';
+
 export function HomeIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -61,28 +64,50 @@ export function PackageIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export function UsersIcon(props: React.SVGProps<SVGSVGElement>) {
+export function MaiIcon() {
   return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-      <circle cx="9" cy="7" r="4" />
-      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-    </svg>
+    <Image
+      src="/maiIcon.svg"
+      width="32"
+      height="31"
+      alt="MAI Icon"
+      style={{
+        aspectRatio: '32/31',
+        objectFit: 'cover',
+      }}
+    />
   );
 }
 
+export function MiniUserIcon() {
+  return (
+    <Image
+      src="/no-profile-picture.svg"
+      width="32"
+      height="32"
+      alt="User picture"
+      style={{
+        aspectRatio: '32/32',
+        objectFit: 'cover',
+      }}
+    />
+  );
+}
+
+export function MainUserIcon() {
+  return (
+    <Image
+      src="/no-profile-picture.svg"
+      width="256"
+      height="256"
+      alt="User picture"
+      style={{
+        aspectRatio: '256/256',
+        objectFit: 'cover',
+      }}
+    />
+  );
+}
 export function LineChartIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg

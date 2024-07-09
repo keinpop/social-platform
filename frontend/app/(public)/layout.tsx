@@ -3,11 +3,7 @@ import { MenuIcon } from '@/components/ui/icons';
 
 const links = [
   { href: 'https://www.mai.ru/', title: 'МАИ' },
-  { href: 'https://t.me/LovePhysicsss', title: 'Здесь' },
-  { href: 'https://t.me/thoughtscomefromthedarkness', title: 'Могли' },
-  { href: 'https://t.me/Nyamerka', title: 'Быть' },
-  { href: 'https://t.me/artempaskevichyan', title: 'Ваши' },
-  { href: 'https://t.me/flaroteur', title: 'Кнопочки' },
+  { href: 'http://localhost:3000/dashboard', title: 'Dashboard' },
 ];
 
 export default function Layout({

@@ -16,7 +16,7 @@ export default function Page() {
       <div className="mt-4 text-center text-blue-950 text-sm">
         Еще нет аккаунта?{' '}
         <Link className="underline text-blue-950" href="/signup">
-          Регестрация
+          Регистрация
         </Link>
       </div>
     </div>

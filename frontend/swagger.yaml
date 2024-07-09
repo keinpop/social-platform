@@ -1,0 +1,189 @@
+basePath: /api
+definitions:
+  company.Company:
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  programm.Programm:
+    properties:
+      duration:
+        type: integer
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  role.Role:
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  technology.Techonology:
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /company:
+    delete:
+      consumes:
+      - application/json
+      description: delete company in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/company.Company'
+      summary: delete company in db
+      tags:
+      - Company-API
+    post:
+      consumes:
+      - application/json
+      description: post new company in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/company.Company'
+      summary: post new company in db
+      tags:
+      - Company-API
+  /company/list:
+    get:
+      consumes:
+      - application/json
+      description: get all companies in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/company.Company'
+            type: array
+      summary: get all companies in db
+      tags:
+      - Company-API
+  /programm:
+    delete:
+      consumes:
+      - application/json
+      description: delete programm in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/programm.Programm'
+      summary: delete programm in db
+      tags:
+      - Programm-API
+    post:
+      consumes:
+      - application/json
+      description: post new programm in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/programm.Programm'
+      summary: post new programm in db
+      tags:
+      - Programm-API
+  /programm/list:
+    get:
+      consumes:
+      - application/json
+      description: get all programmes in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/programm.Programm'
+            type: array
+      summary: get all programmes in db
+      tags:
+      - Programm-API
+  /role:
+    delete:
+      consumes:
+      - application/json
+      description: delete role in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/role.Role'
+      summary: delete role in db
+      tags:
+      - Role-API
+    post:
+      consumes:
+      - application/json
+      description: post new role in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/role.Role'
+      summary: post new role in db
+      tags:
+      - Role-API
+  /role/list:
+    get:
+      consumes:
+      - application/json
+      description: get all roles in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/role.Role'
+            type: array
+      summary: get all roles in db
+      tags:
+      - Role-API
+  /technology:
+    delete:
+      consumes:
+      - application/json
+      description: delete technology in db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/technology.Techonology'
+      summary: delete technology in db
+      tags:
+      - Techonology-API
+    post:
