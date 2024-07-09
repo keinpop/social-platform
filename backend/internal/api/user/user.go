@@ -1,7 +1,9 @@
-package api
+package user
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"mai-platform/internal/api/company"
@@ -56,11 +58,43 @@ type Teacher struct {
 type Admin struct {
 }
 
-func CreateNewUser(c *gin.Context) {
+type UserRequest struct {
+	Mail      string `json:"mail"`
+	Password  string `json:"password"`
+	IsStudent bool   `json:"is_student"`
+}
+
+// type LoginPassword struct {
+// 	Login    string `form:"login" json:"login" binding:"required"`
+// 	Password string `form:"password" json:"password" binding:"required"`
+// }
+
+func AddUser(c *gin.Context) {
 	// идет в авторизацию
 	// пытается создать
 	// если ок - добавляем данные по юзеру в бд
 	// иначе возвращаем
+	var ur UserRequest
+
+	err := c.ShouldBind(&ur)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err)
+	}
+
+	postBody, _ := json.Marshal(map[string]string{
+		"login":    ur.Mail,
+		"password": ur.Password,
+	})
+
+	responseBody := bytes.NewBuffer(postBody)
+	resp, err := http.Post("http://backend-auth:8090/register", "application/json", responseBody)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer resp.Body.Close()
+
+	c.JSON(http.StatusCreated, "OK")
 }
 
 // API-регстрации : (login password flag) -> регистрация в api авторизации +

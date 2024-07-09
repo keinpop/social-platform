@@ -7,6 +7,7 @@ import (
 	"mai-platform/internal/api/programm"
 	"mai-platform/internal/api/role"
 	"mai-platform/internal/api/technology"
+	"mai-platform/internal/api/user"
 	"mai-platform/internal/app"
 	"mai-platform/internal/middleware"
 
@@ -53,6 +54,8 @@ func main() {
 	r.POST("/api/company", company.AddCompany)
 	r.GET("/api/company/list", company.GetCompanies)
 	r.DELETE("/api/company/", company.DeleteCompany)
+
+	r.POST("/api/user", user.AddUser)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
