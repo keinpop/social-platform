@@ -1,11 +1,7 @@
 package user
 
 import (
-	"bytes"
-	"encoding/json"
 	"errors"
-	"fmt"
-	"io"
 	"log"
 	"mai-platform/internal/api/company"
 	"mai-platform/internal/api/programm"
@@ -14,6 +10,7 @@ import (
 	"mai-platform/internal/clients/db/models"
 	"mai-platform/internal/middleware"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -28,10 +25,6 @@ type Workplace struct {
 }
 
 type Workplaces []Workplace
-
-type CreateUserParams struct {
-	isStudent bool
-}
 
 type User struct {
 	Id          uint                    `json:"id"`
@@ -50,14 +43,14 @@ type User struct {
 }
 
 type Student struct {
-	EnterDate     time.Time         `json:"enter_date"`
-	Role          role.Role         `json:"role"`
-	CurrentCourse string            `json:"current_course"`
-	Programm      programm.Programm `json:"programm"`
+	EnterDate     *time.Time         `json:"enter_date"`
+	Role          *role.Role         `json:"role"`
+	CurrentCourse *uint              `json:"current_course"`
+	Programm      *programm.Programm `json:"programm"`
 }
 
 type Teacher struct {
-	StudyingYears uint `json:"studying_years"`
+	StudyingYears *uint `json:"studying_years"`
 }
 
 type Admin struct {
@@ -94,25 +87,21 @@ func AddUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, err)
 	}
 
-	postBody, _ := json.Marshal(map[string]string{
-		"login":    ur.Mail,
-		"password": ur.Password,
-	})
+	a := middleware.GetApp(c)
 
-	responseBody := bytes.NewBuffer(postBody)
-	resp, err := http.Post("http://backend-auth:8090/register", "application/json", responseBody)
+	err = a.Auth.Register(ur.Mail, ur.Password)
 	if err != nil {
-		fmt.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Ivalid data",
+		})
+
 		return
 	}
-	defer resp.Body.Close()
-
-	a := middleware.GetApp(c)
 
 	res, err := a.DB.AddUser(ur.Mail, ur.IsStudent)
 	switch {
 	case err == nil:
-		c.JSON(http.StatusCreated, models.User(*res))
+		c.JSON(http.StatusCreated, convertUserToJson(res, nil))
 	case errors.Is(err, gorm.ErrCheckConstraintViolated) || errors.Is(err, gorm.ErrDuplicatedKey):
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Record already exists",
@@ -121,6 +110,57 @@ func AddUser(c *gin.Context) {
 		log.Printf("Failed to create User: %v", err)
 		c.JSON(http.StatusInternalServerError, "")
 	}
+}
+
+func convertUserToJson(u *models.User, uc []models.UserCompanies) *User {
+	var tech technology.Technologies
+	for i := range u.Technologies {
+		tech = append(tech, technology.Techonology(u.Technologies[i]))
+	}
+
+	// возможно перемешается
+	var wp Workplaces
+	for i := range uc {
+		wp = append(wp, Workplace{
+			Company:     company.Company(u.Companies[i]),
+			Description: uc[i].Description,
+			StartDate:   uc[i].StartDate,
+			EndDate:     uc[i].EndDate,
+		})
+	}
+
+	res := &User{
+		Id:          u.Id,
+		Mail:        u.Mail,
+		Name:        u.Name,
+		Fathername:  u.Fathername,
+		Surname:     u.Surname,
+		AvatarURL:   u.AvatarURL,
+		Techonology: tech,
+		Workplaces:  wp,
+		About:       u.About,
+	}
+
+	if u.Student != nil {
+		res.StudentProfile = &Student{
+			EnterDate:     u.Student.EnterDate,
+			Role:          (*role.Role)(u.Student.Role),
+			CurrentCourse: u.Student.CurrentCourse,
+			Programm:      (*programm.Programm)(u.Student.Programm),
+		}
+	}
+
+	if u.Teacher != nil {
+		res.TeacherProfile = &Teacher{
+			StudyingYears: u.Teacher.StudyingYears,
+		}
+	}
+
+	if u.Admin != nil {
+		res.AdminProfile = &Admin{}
+	}
+
+	return res
 }
 
 // API-регстрации : (login password flag) -> регистрация в api авторизации +
@@ -132,25 +172,31 @@ func AddUser(c *gin.Context) {
 // API-добавление роль :       (idUser idRole)
 // API-добавление курса :      (idUser idCourse)
 
-// Доделать
-func GetUserData(c *gin.Context) {
-	// TODO: use db
-	jsonData, err := io.ReadAll(c.Request.Body)
-	if err != nil {
-		log.Printf("[error] Failed to read body: %v", err)
-		c.JSON(http.StatusInternalServerError, "")
-		return
-	}
+type GetUserParams struct {
+	Id uint `json:"id"`
+}
 
-	var r User
-	err = json.Unmarshal(jsonData, &r)
+func GetUserData(c *gin.Context) {
+	value := c.Param("id")
+	id, err := strconv.ParseUint(value, 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
+			"error": "Invalid id",
 		})
 		return
 	}
 
-	// TODO: понять, что за роль юзера (stud teach admin)
-
+	a := middleware.GetApp(c)
+	res, us, err := a.DB.GetUser(uint(id))
+	switch {
+	case err == nil:
+		c.JSON(http.StatusOK, convertUserToJson(res, us))
+	case errors.Is(err, gorm.ErrCheckConstraintViolated) || errors.Is(err, gorm.ErrDuplicatedKey):
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Record already exists",
+		})
+	default:
+		log.Printf("Failed to get User: %v", err)
+		c.JSON(http.StatusInternalServerError, "")
+	}
 }

@@ -1,4 +1,7 @@
 port: 8080
+auth: 
+  port: 8090
+  host: backend-auth
 db: 
   login: postgres
   password: db-frknz

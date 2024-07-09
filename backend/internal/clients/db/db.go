@@ -102,13 +102,8 @@ func (d *DB) CheckHash(login, password string) (bool, error) {
 
 func (d *DB) AddUser(mail string, isStudent bool) (*models.User, error) {
 	u := models.User{Mail: mail}
-	r := models.Role{
-		Title: "unknown",
-	}
 	if isStudent {
-		s := models.Student{
-			Role: r,
-		}
+		s := models.Student{}
 		u.Student = &s
 	} else {
 		t := models.Teacher{}
@@ -120,6 +115,29 @@ func (d *DB) AddUser(mail string, isStudent bool) (*models.User, error) {
 	}
 
 	return &u, nil
+}
+
+func (d *DB) GetUser(id uint) (*models.User, []models.UserCompanies, error) {
+	res := models.User{
+		Id: id,
+	}
+
+	if query := d.db.
+		Preload("Teacher").
+		Preload("Student").
+		Preload("Admin").
+		Preload("Technologies").
+		Preload("Companies").
+		Find(&res); query.Error != nil {
+		return nil, nil, query.Error
+	}
+
+	uc := []models.UserCompanies{}
+	if query := d.db.Find(&uc).Where("user_id = ?", id); query.Error != nil {
+		return nil, nil, query.Error
+	}
+
+	return &res, uc, nil
 }
 
 func (d *DB) AddCompany(title string) (*models.Company, error) {

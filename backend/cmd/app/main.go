@@ -37,28 +37,38 @@ func main() {
 
 	InitMetrics(r)
 
+	InitnitRoutes(r, a)
+
 	docs.SwaggerInfo.BasePath = "/api"
 
-	r.POST("/api/progrmm", programm.AddProgramm)
-	r.GET("/api/programm/list", programm.GetProgrammes)
-	r.DELETE("/api/programm/", programm.DeleteProgramm)
+	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+}
 
-	r.POST("/api/role", role.AddRole)
-	r.GET("/api/role/list", role.GetRoles)
-	r.DELETE("/api/role/", role.DeleteRole)
+func InitnitRoutes(r *gin.Engine, a *app.App) {
+	g := r.Group("/api", middleware.WithAuth(a))
 
-	r.POST("/api/technology", technology.AddTechnology)
-	r.GET("/api/technology/list", technology.GetTechnologies)
-	r.DELETE("/api/technology/", technology.DeleteTechnology)
+	// 	g.POST("/progrmm", middleware.IsAdmin(),programm.AddProgramm)
 
-	r.POST("/api/company", company.AddCompany)
-	r.GET("/api/company/list", company.GetCompanies)
-	r.DELETE("/api/company/", company.DeleteCompany)
+	g.POST("/progrmm", programm.AddProgramm)
+	g.GET("programm/list", programm.GetProgrammes)
+	g.DELETE("programm/", programm.DeleteProgramm)
 
-	r.POST("/api/user", user.AddUser)
+	g.POST("/api/role", role.AddRole)
+	g.GET("role/list", role.GetRoles)
+	g.DELETE("role/", role.DeleteRole)
+
+	g.POST("technology", technology.AddTechnology)
+	g.GET("technology/list", technology.GetTechnologies)
+	g.DELETE("technology/", technology.DeleteTechnology)
+
+	g.POST("company", company.AddCompany)
+	g.GET("company/list", company.GetCompanies)
+	g.DELETE("company/", company.DeleteCompany)
+
+	g.GET("user/:id", user.GetUserData)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	r.POST("/register", user.AddUser)
 }
 
 func InitMetrics(r *gin.Engine) {

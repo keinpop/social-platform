@@ -26,15 +26,15 @@ type Techonology struct {
 }
 
 type User struct {
-	Id            uint          `json:"id" gorm:"primaryKey"`
-	Mail          string        `json:"mail" gorm:"unique;not null"`
-	Name          string        `json:"name"`
-	Fathername    string        `json:"fathername"`
-	Surname       string        `json:"surname"`
-	AvatarURL     string        `json:"avatar_url"`
-	Techonologies []Techonology `json:"technologies" gorm:"many2many:user_technologies;"`
-	Companies     []Company     `json:"companies" gorm:"many2many:user_companies;"`
-	About         string        `json:"about"`
+	Id           uint          `json:"id" gorm:"primaryKey"`
+	Mail         string        `json:"mail" gorm:"unique;not null"`
+	Name         string        `json:"name"`
+	Fathername   string        `json:"fathername"`
+	Surname      string        `json:"surname"`
+	AvatarURL    string        `json:"avatar_url"`
+	Technologies []Techonology `json:"technologies" gorm:"many2many:user_technologies;"`
+	Companies    []Company     `json:"companies" gorm:"many2many:user_companies;"`
+	About        string        `json:"about"`
 
 	Student *Student
 	Teacher *Teacher
@@ -54,17 +54,19 @@ type Student struct {
 	UserID uint `json:"user_id" gorm:"primaryKey"`
 	User   User
 
-	EnterDate     time.Time `json:"enter_date" gorm:"not null"`
-	Role          Role      `json:"role" gorm:"many2many:student_roles;"`
-	CurrentCourse string    `json:"current_course" gorm:"not null"`
-	Programm      Programm  `json:"programm" gorm:"many2many:student_programms;"`
+	EnterDate     *time.Time `json:"enter_date"`
+	Role          *Role      `json:"role"`
+	RoleId        *uint      `json:"role_id"`
+	CurrentCourse *uint      `json:"current_course"`
+	Programm      *Programm  `json:"programm"`
+	ProgrammId    *uint      `json:"programm_id"`
 }
 
 type Teacher struct {
 	UserID uint `json:"user_id" gorm:"primaryKey"`
 	User   User
 
-	StudyingYears uint `json:"studying_years"`
+	StudyingYears *uint `json:"studying_years"`
 }
 
 type Admin struct {
