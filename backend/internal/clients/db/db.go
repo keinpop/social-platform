@@ -2,6 +2,8 @@ package db
 
 import (
 	"fmt"
+	"golang.org/x/crypto/bcrypt"
+	"log"
 	"mai-platform/internal/clients/db/models"
 
 	"gorm.io/driver/postgres"
@@ -79,14 +81,22 @@ func (d *DB) Register(login, passwordHash string) error {
 	return result.Error
 }
 
-func (d *DB) CheckHash(login, passwordHash string) (bool, error) {
+func (d *DB) CheckHash(login, password string) (bool, error) {
 	var uh models.UserHash
 	result := d.db.First(&uh, "login = ?", login)
 	if result.Error != nil {
 		return false, result.Error
 	}
 
-	return uh.PasswordHash == passwordHash, nil
+	tmpHash := []byte(uh.PasswordHash)
+	tmpPass := []byte(login + password)
+
+	if err := bcrypt.CompareHashAndPassword(tmpHash, tmpPass); err != nil {
+		log.Println("[error] : Invalid password")
+		return false, err
+	}
+
+	return true, nil
 }
 
 func (d *DB) AddCompany(title string) (*models.Company, error) {
