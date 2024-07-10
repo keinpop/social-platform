@@ -39,10 +39,10 @@ func (a *Auth) CheckToken(token string) (bool, error) {
 		return false, err
 	}
 	req.Header.Set("Authorization", token)
-	res, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return false, err
-	}
+	res, _ := http.DefaultClient.Do(req)
+	// if err != nil {
+	// 	return false, err
+	// }
 
 	defer res.Body.Close()
 

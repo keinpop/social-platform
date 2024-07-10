@@ -53,19 +53,19 @@ func InitnitRoutes(r *gin.Engine, a *app.App) {
 	g.GET("programm/list", programm.GetProgrammes)
 	g.DELETE("programm/", programm.DeleteProgramm)
 
-	g.POST("/api/role", role.AddRole)
-	g.GET("role/list", role.GetRoles)
-	g.DELETE("role/", role.DeleteRole)
+	r.POST("/api/role", role.AddRole)
+	r.GET("role/list", role.GetRoles)
+	r.DELETE("/api/role/", role.DeleteRole)
 
-	g.POST("technology", technology.AddTechnology)
-	g.GET("technology/list", technology.GetTechnologies)
-	g.DELETE("technology/", technology.DeleteTechnology)
+	r.POST("/api/technology", technology.AddTechnology)
+	r.GET("technology/list", technology.GetTechnologies)
+	r.DELETE("/api/technology/", technology.DeleteTechnology)
 
-	g.POST("company", company.AddCompany)
-	g.GET("company/list", company.GetCompanies)
-	g.DELETE("company/", company.DeleteCompany)
+	r.POST("tecompany", company.AddCompany)
+	r.GET("company/list", company.GetCompanies)
+	r.DELETE("company/", company.DeleteCompany)
 
-	g.GET("user/:id", user.GetUserData)
+	r.GET("user/:id", user.GetUserData)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.POST("/register", user.AddUser)
